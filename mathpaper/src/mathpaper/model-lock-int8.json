@@ -1,0 +1,20 @@
+{
+  "embedding": {
+    "repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "sha256": {
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+      "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21"
+    }
+  },
+  "reranker": {
+    "repo": "cross-encoder/ms-marco-MiniLM-L6-v2",
+    "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a",
+    "sha256": {
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "config.json": "380e02c93f431831be65d99a4e7e5f67c133985bf2e77d9d4eba46847190bacc",
+      "onnx/model_quint8_avx2.onnx": "c80a8b34256ea453093d612e3ac48d3d965a0c0a48c7906709af8b8e28461bf9"
+    }
+  }
+}

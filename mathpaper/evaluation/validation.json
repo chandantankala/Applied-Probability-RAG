@@ -1,0 +1,38 @@
+{
+  "python": "3.12.14",
+  "tested_dependencies": {
+    "PyMuPDF": "1.26.6",
+    "numpy": "2.5.4",
+    "fastapi": "0.143.2",
+    "uvicorn": "0.54.0",
+    "python-multipart": "0.0.32",
+    "onnxruntime": "1.31.0",
+    "tokenizers": "0.23.3",
+    "httpx": "0.28.1",
+    "python-dotenv": "1.2.4",
+    "fastmcp": "4.1.0",
+    "mcp": "2.3.0",
+    "httpx2": "2.13.1"
+  },
+  "deterministic_tests": {
+    "passed": 15
+  },
+  "integration": "HTTP, PDF fingerprints, all live MCP tools, and scripted-model agent wiring passed.",
+  "retrieval": "Real ONNX CPU inference; 10-question authoring-time page-hit smoke comparison in RESULTS.md.",
+  "not_verified": [
+    "Live generative model quality or costs",
+    "Full browser visual/interaction testing",
+    "Docker image build (no local daemon available)",
+    "Remote deployment (hosting account and plan not selected)"
+  ],
+  "deployment_entry_point": "Public port binding, health, public-mode upload/chat restrictions, real reranked retrieval, internal MCP routing, and graceful shutdown passed.",
+  "free_plan": {
+    "profile": "int8",
+    "sum_of_individual_process_peak_rss_mib": 393.4,
+    "seed_page_hits": {
+      "N20": 10,
+      "N50": 10
+    },
+    "cloud_deployment_verified": false
+  }
+}

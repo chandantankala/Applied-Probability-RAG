@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MathPaper — Research with sources</title>
+  <meta name="description" content="Search mathematics papers and trace answers to the original pages.">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Paper collection">
+    <a class="brand" href="/" aria-label="MathPaper home"><span class="brand-symbol">∑</span><span>MathPaper<span class="brand-dot">.</span></span></a>
+    <div class="workspace"><span class="avatar">CT</span><div><strong>Research workspace</strong><small>Chandan Tankala</small></div></div>
+    <div class="collection-heading"><h2>Your collection</h2><span id="paper-count" class="counter">0</span></div>
+    <p class="sidebar-hint">Choose which papers to explore.</p>
+    <div id="papers" class="papers"><p class="muted">Loading your papers…</p></div>
+    <label class="upload" for="pdf-upload"><span>＋</span> Add a paper<input id="pdf-upload" type="file" accept="application/pdf" hidden></label>
+    <div class="sidebar-bottom"><span class="status-dot"></span><span id="corpus-status">Connecting to your collection</span></div>
+  </aside>
+  <main>
+    <header class="topbar"><div><span class="eyebrow">MATHEMATICS RESEARCH</span><span class="topbar-title">A conversation with your papers</span></div><button class="quiet-button" id="new-chat">＋ New conversation</button></header>
+    <section id="connection-notice" class="connection-notice" hidden></section>
+    <div class="main-grid">
+      <section class="conversation" aria-label="Research conversation">
+        <div id="welcome" class="welcome">
+          <span class="intro-tag"><span class="status-dot"></span> SOURCES FIRST</span>
+          <h1>Ask a question.<br><em>Follow the mathematics.</em></h1>
+          <p>Explore results, compare assumptions, and return to the exact page behind every passage.</p>
+          <div class="suggestions">
+            <button data-question="What does virtual particle stochastic approximation do in mean field optimization?"><span class="prompt-number">01</span><span>Understand a method<small>Virtual particles and mean field optimization</small></span><span class="arrow">↗</span></button>
+            <button data-question="What is the mixing time and cutoff window of the randomized shift-register Markov chain?"><span class="prompt-number">02</span><span>Find a mathematical result<small>Mixing times and the shift-register chain</small></span><span class="arrow">↗</span></button>
+            <button data-question="What separation assumption is used for Gaussian measures in dense associative memory?"><span class="prompt-number">03</span><span>Inspect an assumption<small>Separation in Gaussian associative memory</small></span><span class="arrow">↗</span></button>
+          </div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div id="busy" class="busy" hidden><span class="spinner"></span><span id="busy-label">Searching your papers…</span></div>
+        <form id="composer" class="composer">
+          <div class="mode-tabs" role="group" aria-label="Interaction mode"><button type="button" class="mode active" data-mode="search">Find evidence</button><button type="button" class="mode" data-mode="chat">Ask the agent</button></div>
+          <label class="sr-only" for="question">Your research question</label>
+          <textarea id="question" placeholder="Ask about a theorem, method, or assumption…" rows="2" maxlength="4000" required></textarea>
+          <div class="composer-footer"><span id="mode-caption">Hybrid retrieval · MiniLM reranking</span><button id="send" type="submit" aria-label="Submit question">↑</button></div>
+        </form>
+        <div class="below-composer">Check mathematical symbols and assumptions against the linked original pages.</div>
+      </section>
+      <aside class="evidence-panel" aria-label="Retrieved evidence">
+        <div class="evidence-heading"><h2>Evidence</h2><span id="source-count" class="counter">0</span></div>
+        <div id="evidence-empty" class="evidence-empty"><div class="document-icon">≡</div><h3>Every result has a source</h3><p>Retrieved passages will appear here with a link to the original PDF page.</p></div>
+        <div id="evidence" class="evidence"></div>
+        <details class="retrieval-settings"><summary>Retrieval settings</summary><label>Search method<select id="retrieval-mode"><option value="hybrid-rerank">Hybrid + reranking</option><option value="hybrid">Hybrid</option><option value="dense">Embedding search</option><option value="bm25">BM25 keyword search</option></select></label><label>Candidates to score<input id="candidates" type="number" value="50" min="5" max="150"></label><label>Passages to retain<input id="top-k" type="number" value="5" min="1" max="20"></label><p>These settings apply to Find evidence. The agent uses bounded tool settings.</p></details>
+        <details id="trace-details" class="trace-details" hidden><summary>Inspect the run</summary><pre id="trace"></pre></details>
+      </aside>
+    </div>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="/assets/app.js" defer></script>
+</body>
+</html>

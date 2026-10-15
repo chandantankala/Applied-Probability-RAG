@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: mathpaper
+    runtime: docker
+    plan: free
+    numInstances: 1
+    dockerfilePath: ./mathpaper/Dockerfile
+    dockerContext: ./mathpaper
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: MATHPAPER_PUBLIC_DEMO
+        value: "1"
+      - key: MATHPAPER_PUBLIC_CHAT
+        value: "0"
+      - key: MATHPAPER_ORT_THREADS
+        value: "1"
