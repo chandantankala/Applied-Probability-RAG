@@ -95,7 +95,7 @@ class RetrievalTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             self._corpus(root)
-            np.savez(root / "vectors.npz", ids=np.array(["achunk", "bchunk"]), vectors=np.ones((2, 3)), signature=np.array("stale"))
+            np.savez(ResearchIndex(root).vector_path, ids=np.array(["achunk", "bchunk"]), vectors=np.ones((2, 3)), signature=np.array("stale"))
             with self.assertRaisesRegex(ValueError, "stale"):
                 ResearchIndex(root)._load_vectors(chunks(root))
 

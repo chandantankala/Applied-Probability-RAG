@@ -11,7 +11,7 @@ def main():
     entries = json.loads((root/"papers.json").read_text())
     missing = [entry["filename"] for entry in entries if not (root/"papers"/(entry["id"]+".pdf")).exists()]
     if missing:
-        raise SystemExit("Source PDFs are not part of this public code checkout. Supply the authorized PDFs under data/papers before building. Missing: "+", ".join(missing))
+        raise SystemExit("The checkout is missing required source PDFs under data/papers. Restore the fingerprinted files from the repository before building. Missing: "+", ".join(missing))
     for entry in entries:
         source = root/"papers"/(entry["id"]+".pdf")
         digest = hashlib.sha256(source.read_bytes()).hexdigest()
