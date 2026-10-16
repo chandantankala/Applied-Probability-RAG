@@ -5,7 +5,7 @@
   <title>Evaluation — MathPaper</title>
   <meta name="description" content="Inspect MathPaper's retrieval experiments, candidate-budget tradeoffs, and recorded agent checks.">
   <link rel="stylesheet" href="/assets/style.css?v=public-charts-1">
-  <link rel="stylesheet" href="/assets/evaluation.css?v=public-charts-1">
+  <link rel="stylesheet" href="/assets/evaluation.css?v=page-hit-guide-1">
 </head>
 <body class="evaluation-page">
   <header class="eval-header">
@@ -15,7 +15,7 @@
   <main class="evaluation-main">
     <section class="eval-hero">
       <div class="hero-copy"><span class="eyebrow">THE EXPERIMENT NOTEBOOK</span><h1>Build. Measure.<br><em>Follow the evidence.</em></h1><p>A research assistant is also a set of engineering decisions. Here are the retrieval comparisons, the speed tradeoff, and the questions behind them.</p><div class="hero-actions"><a class="primary-link" href="/#question">Try the research assistant <span>↗</span></a><a class="text-link" href="#retrieval-comparison">Explore the results ↓</a></div></div>
-      <aside class="scope-card"><span class="section-kicker">READING THESE RESULTS</span><h2>A small, inspectable<br>development set.</h2><p>Ten questions written during development, with manually labelled PDF pages. A page hit measures whether useful evidence was found; it does not measure answer correctness.</p><span class="scope-tag">Tuning scope: retrieval configuration</span><small>Embedding, reranker, and answering model weights are unchanged.</small></aside>
+      <aside class="scope-card"><span class="section-kicker">READING THESE RESULTS</span><h2>A small, inspectable<br>development set.</h2><p>Ten questions written during development, with PDF pages marked as useful references. A “page hit” means the search returned an excerpt from at least one of those pages in the correct paper.</p><span class="scope-tag">Tuning scope: retrieval configuration</span><small>Embedding, reranker, and answering model weights are unchanged.</small></aside>
     </section>
     <p id="report-status" class="report-status" role="status">Loading the recorded experiments…</p>
     <div id="report" hidden>
@@ -25,7 +25,12 @@
       <nav class="chart-jump-nav" aria-label="Evaluation charts"><a href="#retrieval-comparison">Method comparison ↓</a><a href="#latency-distribution">Query-time histogram ↓</a><a href="#question-audit">Question grid ↓</a></nav>
       <section class="experiment-section" id="retrieval-comparison" aria-labelledby="comparison-heading">
         <div class="section-heading"><div><span class="section-kicker">01 / RETRIEVAL COMPARISON</span><h2 id="comparison-heading">What reaches the top five?</h2></div><span class="data-tag">LOCAL CPU · INT8 · N = 50 · K = 5</span></div>
-        <p class="section-intro">The same ten questions search all three papers. A hit requires at least one labelled page from the expected paper among the five retained passages.</p>
+        <p class="section-intro">The same ten questions search all three papers. The score asks a simple question: did the search reach a page marked as useful for this question?</p>
+        <aside class="metric-explainer" aria-labelledby="page-hit-heading">
+          <div><span class="section-kicker">WHAT IS AN EVIDENCE-PAGE HIT?</span><h3 id="page-hit-heading">Finding the right page.</h3><p>For each test question, we first marked the PDF pages containing useful supporting material. The search returns five <strong>passages</strong>—short excerpts from the papers. The question gets <strong>one hit</strong> if at least one excerpt comes from a marked page in the correct paper.</p><p><strong>Reading 9/10:</strong> for nine of the ten test questions, the search reached a reference page among its first five results. The shorthand <strong>“@5”</strong> means we check only those first five passages.</p></div>
+          <div class="metric-example"><span class="section-kicker">ILLUSTRATIVE EXAMPLE</span><p>Suppose the useful pages in one paper are <strong>5 and 6</strong>. The search returns these five excerpts from that paper:</p><div class="example-pages" aria-label="Five returned excerpts: page 2, page 6, page 9, page 3, page 2. Page 6 matches a reference page."><span>p. 2</span><span class="example-match">p. 6 ✓</span><span>p. 9</span><span>p. 3</span><span>p. 2</span></div><p><strong>That is one hit:</strong> an excerpt came from page 6. Finding several excerpts from the reference pages still counts as one hit for that question.</p></div>
+          <p class="metric-limit">This measures whether search reached a reference page. The excerpt and generated answer still need checking for relevance, correctness, and complete assumptions.</p>
+        </aside>
         <div class="comparison-layout"><figure class="chart-figure"><figcaption>Evidence-page hits <span>Out of 10 questions · higher is better</span></figcaption><div id="method-chart" class="column-chart"></div><p id="method-selection" class="chart-selection" aria-live="polite"></p><p class="chart-hint">Select a bar to compare its result in the question explorer.</p></figure><aside class="finding-card"><span class="section-kicker">WHAT THIS TAUGHT US</span><h3>The keyword baseline holds up.</h3><p>BM25 and hybrid + reranking each hit 9/10 questions in this set. These results give no basis to claim that reranking improves overall retrieval quality.</p><p>The reranked search misses the Gaussian separation definition. That makes statement lookup a useful tool to investigate, with broader evaluation still needed.</p><a class="text-link" href="#question-audit" id="inspect-miss">Inspect the missed question ↗</a></aside></div>
         <div class="table-scroll"><table class="results-table"><caption>Recorded retrieval comparison</caption><thead><tr><th scope="col">Method</th><th scope="col">Page hits @5</th><th scope="col">Page hits in 50 candidates</th><th scope="col">Median local query</th></tr></thead><tbody id="method-table"></tbody></table></div>
         <p class="figure-note">Times include retrieval and, when used, reranking. First-use model startup can affect a run. These measurements exclude answer generation and were collected locally.</p>
