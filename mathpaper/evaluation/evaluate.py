@@ -8,7 +8,7 @@ from pathlib import Path
 from statistics import median
 
 from mathpaper.retrieval import ResearchIndex
-from mathpaper.store import chunks
+from mathpaper.store import chunks, papers
 
 
 def main():
@@ -20,7 +20,9 @@ def main():
         "scope": "10 authoring-time seed questions. Page-hit checks only, not answer correctness, recall of all relevant passages, or held-out validation.",
         "python": platform.python_version(), "platform": platform.platform(),
         "candidates": 50, "top_k": 5, "max_pair_tokens": 512,
-        "model_lock": json.loads((Path(__file__).parents[1]/"src/mathpaper/model-lock.json").read_text()),
+        "model_precision": index.models.precision,
+        "corpus": [{k: p[k] for k in ("id", "title", "sha256", "pages")} for p in papers(index.root)],
+        "model_lock": json.loads((Path(__file__).parents[1]/"src/mathpaper"/("model-lock-int8.json" if index.models.precision == "int8" else "model-lock.json")).read_text()),
         "runs": [], "summary": [],
     }
 

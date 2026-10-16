@@ -77,6 +77,27 @@ class RetrievalTests(unittest.TestCase):
                     db.execute("INSERT INTO blocks VALUES(?,?,?,?,?,?,?)", (f"{key}:p1:b{order}", key, 1, order, label, text, "[]"))
                 db.execute("INSERT INTO chunks VALUES(?,?,?,?,?,?,?,?)", (key+"chunk", key, 1, 0, "Theorem 1", f"hypercube chain {key}", json.dumps([f"{key}:p1:b0", f"{key}:p1:b5"]), 5))
 
+    def test_theorem_after_formula_has_its_own_statement_boundary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            pdf = base / "merged-heading.pdf"
+            with fitz.open() as document:
+                page = document.new_page()
+                page.insert_text((72, 72), "Assumption 1. The parameter is positive.\n"
+                                 "2 log(4 pi lambda) + d .\n"
+                                 "Theorem 1. The chain converges.\n"
+                                 "Definition 2. A distinct statement.")
+                document.save(pdf)
+            root = base / "data"
+            paper = ingest_pdf(pdf, root=root)
+            index = ResearchIndex(root)
+            theorem = index.get_statement(paper["id"], "Theorem 1")
+            text = "\n".join(s["text"] for s in theorem["sources"])
+            self.assertIn("The chain converges.", text)
+            self.assertNotIn("2 log", text)
+            self.assertNotIn("Definition 2", text)
+            self.assertNotIn("Theorem 1", "\n".join(s["text"] for s in index.get_statement(paper["id"], "Assumption 1")["sources"]))
+
     def test_paper_filter_and_statement_boundary(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

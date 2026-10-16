@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1 \
     MATHPAPER_DATA=/app/data \
     MATHPAPER_PUBLIC_DEMO=1 \
     MATHPAPER_PUBLIC_CHAT=0 \
-    MATHPAPER_ORT_THREADS=2 \
+    MATHPAPER_ORT_THREADS=1 \
     MATHPAPER_MODEL_PRECISION=${MODEL_PRECISION} \
     MATHPAPER_INFERENCE_BATCH_SIZE=1 \
     MATHPAPER_DEFAULT_CANDIDATES=20 \
@@ -23,9 +23,9 @@ RUN apt-get update \
     && useradd --create-home --uid 1000 appuser
 
 WORKDIR /app
-COPY --chown=1000:1000 pyproject.toml README.md ./
+COPY --chown=1000:1000 pyproject.toml README.md requirements.lock ./
 COPY --chown=1000:1000 src ./src
-RUN python -m pip install --no-cache-dir ".[agent]"
+RUN python -m pip install --no-cache-dir -c requirements.lock ".[agent]"
 
 COPY --chown=1000:1000 data ./data
 COPY --chown=1000:1000 deployment ./deployment

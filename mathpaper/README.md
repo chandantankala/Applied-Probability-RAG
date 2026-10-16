@@ -1,6 +1,6 @@
 # MathPaper
 
-This public source checkout excludes the uploaded paper PDFs and derived corpus database. The tested local version uses the three PDFs described below. The Docker build requires those source PDFs to be supplied with redistribution authorization; no website is deployed by this source change alone.
+This checkout includes the author's three approved source PDFs. The derived database, vectors, model weights, and secrets are excluded from Git. The Docker build verifies the PDF fingerprints and rebuilds the corpus; publishing this source alone does not deploy a website.
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
 
@@ -10,7 +10,7 @@ For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The Render configuratio
 
 ## Start with evidence search
 
-Use Python 3.12 in a virtual environment. Open a terminal in this folder after extracting the ZIP.
+Use Python 3.12 in a virtual environment. Open a terminal in this `mathpaper/` folder after cloning the repository and checking out `mathpaper-free-web-demo`.
 
 ```bash
 python -m venv .venv
@@ -31,15 +31,16 @@ Or in Windows PowerShell:
 Then install and run:
 
 ```bash
-python -m pip install -e ".[agent]"
+python -m pip install -c requirements.lock -e ".[agent]"
+python deployment/bootstrap.py
 mathpaper models
 mathpaper index
 mathpaper serve
 ```
 
-Open **http://127.0.0.1:8000**. Choose **Find evidence**, then try one of the suggested questions. The model download is about 180 MB and happens once; weights are excluded from this ZIP. `mathpaper models` downloads pinned official files from Hugging Face and verifies SHA-256 checksums.
+Open **http://127.0.0.1:8000**. Choose **Find evidence**, then try one of the suggested questions. The default full-precision model download is about 180 MB and happens once. `mathpaper models` downloads pinned official files from Hugging Face and verifies SHA-256 checksums. The hosted INT8 profile downloads about 44 MiB instead.
 
-For this repository checkout, supply the authorized PDFs at the fingerprinted paths in `data/papers.json`, then run `python deployment/bootstrap.py` before `mathpaper index`. The original downloadable working bundle contains the local PDFs and corpus; they are not included in this public Git repository. `mathpaper index` rebuilds passages and vectors from extracted blocks.
+The approved PDFs are already at the fingerprinted paths in `data/papers.json`. `python deployment/bootstrap.py` extracts them into a local database, and `mathpaper index` rebuilds page-linked passages and vectors. If a source PDF changes, update its manifest entry and development labels before rebuilding; do not reuse the previous version's identity.
 
 ## Connect the answering model
 
@@ -79,10 +80,10 @@ This starts the MCP service at `http://127.0.0.1:8001/mcp`. Refresh the interfac
 | Uploaded paper | Physical PDF pages | Version detail |
 |---|---:|---|
 | Beyond propagation of chaos: A stochastic algorithm for mean field optimization | 31 | Uploaded proceedings copy |
-| Dense associative memory for Gaussian distributions | 33 | Uploaded anonymous review draft |
+| Dense associative memory for Gaussian distributions | 33 | Uploaded ICML 2026 proceedings copy, PMLR 306 |
 | Fast mixing of a randomized shift-register Markov chain | 14 | Uploaded journal copy |
 
-The 78 pages produce **411 passages**, each linked to its original PDF page. `data/papers.json` records file fingerprints and notes. A paper ID is derived from its PDF bytes, so a revised PDF gets a distinct identity. The review draft's numbering is used as uploaded; it is not assumed to match a later version. PDF page links use physical page numbers starting at 1, rather than journal page numbers.
+The 78 pages produce **404 passages** with the pinned dependencies, each linked to its original PDF page. `data/papers.json` records file fingerprints and version notes. A paper ID is derived from its PDF bytes, so a revised PDF gets a distinct identity. All statement labels and development page labels refer to the included copies. PDF page links use physical page numbers starting at 1, rather than journal page numbers.
 
 ## Retrieval and agent behavior
 
@@ -98,7 +99,7 @@ The 78 pages produce **411 passages**, each linked to its original PDF page. `da
 | Storage | SQLite source metadata/text; NumPy vector cache; exact local cosine search |
 | Conversation | SQLite per-thread memory of published claims and source references; last 12 messages |
 
-The small dense embedding model is an initial baseline. Both models are general text models; their adequacy for mathematical notation needs measurement. A local exact vector search is sufficient for this 411-passage corpus; a vector database is a later scaling option.
+The small dense embedding model is an initial baseline. Both models are general text models; their adequacy for mathematical notation needs measurement. A local exact vector search is sufficient for this 404-passage corpus; a vector database is a later scaling option.
 
 The agent chooses among three MCP tools:
 
@@ -112,10 +113,10 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 
 ## What has been checked
 
-- Real CPU embedding and cross-encoder inference on all 411 passages and the starter questions.
-- Fifteen deterministic tests for fusion, paper filtering, stale-vector rejection, precision-specific caches, content identity, statement boundaries, source links, citation validation, bounded thread history, and public-demo restrictions.
+- Real CPU embedding and cross-encoder inference on all 404 passages and the starter questions.
+- Sixteen deterministic tests for fusion, paper filtering, stale-vector rejection, precision-specific caches, content identity, statement boundaries (including a heading merged with an equation), source links, citation validation, bounded thread history, and public-demo restrictions.
 - HTTP endpoints and original-PDF byte hashes.
-- Live MCP discovery and all three research tools, including the Gaussian separation assumption spanning PDF pages 4 and 5.
+- Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
 - JavaScript syntax and Python compilation. Full visual browser testing has not been performed.
 - The container entry point, configurable public port, readiness, real retrieval, internal MCP routing, and graceful shutdown. A Docker image build and remote deployment have not yet been performed.
@@ -123,7 +124,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 
 No live generative model has been called, so mathematical answer quality, model tool-use reliability, end-to-end chat latency, and hallucination rates remain unmeasured.
 
-The ten development questions in `evaluation/questions.json` are a starting smoke set. Hybrid + reranking returned at least one labelled relevant page in the top five for 10/10 questions; this is **not** a held-out benchmark or answer-accuracy result. The method comparisons and measured timings are in [evaluation/RESULTS.md](evaluation/RESULTS.md).
+The ten development questions in `evaluation/questions.json` are a starting smoke set, with labels updated for the included proceedings PDF. Current page-hit counts and measured timings are in [evaluation/RESULTS.md](evaluation/RESULTS.md). They are **not** a held-out benchmark or answer-accuracy result. The separation-condition question still requires a follow-up statement lookup when its definition is missing from the top five passages.
 
 Run the deterministic tests:
 

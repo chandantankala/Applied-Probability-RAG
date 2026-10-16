@@ -1,6 +1,7 @@
 services:
   - type: web
-    name: mathpaper
+    name: mathpaper-chandan-tankala
+    branch: mathpaper-free-web-demo
     runtime: docker
     plan: free
     numInstances: 1

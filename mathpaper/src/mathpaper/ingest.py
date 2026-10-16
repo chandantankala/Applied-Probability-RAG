@@ -12,6 +12,22 @@ import fitz
 from .store import connect, data_path
 
 LABEL = re.compile(r"^(Theorem|Lemma|Proposition|Corollary|Definition|Assumption|Remark)\s+((?:[A-Z]\.)?\d+(?:\.\d+)*|[A-Z])\b", re.I)
+DECLARATION = re.compile(
+    r"^(?:Theorem|Lemma|Proposition|Corollary|Definition|Assumption|Remark)\s+"
+    r"(?:(?:[A-Z]\.)?\d+(?:\.\d+)*|[A-Z])(?=\s*[.(])",
+    re.I | re.M,
+)
+
+
+def split_declarations(text: str) -> list[str]:
+    """Separate headings that the PDF grouped with a preceding equation.
+
+    Require declaration punctuation after the number so ordinary references
+    such as 'Theorem 1 guarantees ...' do not create statement boundaries.
+    """
+    starts = [0] + [m.start() for m in DECLARATION.finditer(text) if m.start()]
+    ends = starts[1:] + [len(text)]
+    return [text[start:end].strip() for start, end in zip(starts, ends) if text[start:end].strip()]
 
 
 def detect_label(text: str) -> str | None:
@@ -88,6 +104,7 @@ def ingest_pdf(path: Path, title: str | None = None, notes: str = "", root: Path
                 ordered = sorted(top, key=lambda b: b[1]) + sorted(left, key=lambda b: (b[1], b[0])) + sorted(right, key=lambda b: (b[1], b[0]))
             else:
                 ordered = sorted(kept, key=lambda b: (b[1], b[0]))
+            ordered = [(*block[:4], part) for block in ordered for part in split_declarations(block[4])]
             for order, block in enumerate(ordered):
                 label = detect_label(block[4])
                 extracted.append((f"{paper_id}:p{page_no}:b{order}", paper_id, page_no, len(extracted), label, block[4], json.dumps(block[:4])))

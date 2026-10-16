@@ -16,11 +16,16 @@ async function refresh() {
   const before=new Set(selectedPapers()), first=!$('papers').querySelector('input');
   $('papers').replaceChildren();
   state.papers.forEach(p=>{
+    const entry=element('div','paper-entry');
     const label=element('label','paper-option');
     const checkbox=document.createElement('input'); checkbox.type='checkbox'; checkbox.value=p.id; checkbox.checked=first||before.has(p.id);
     const detail=element('div'); detail.append(element('strong','',p.title),element('small','',`${p.pages} PDF pages · ${p.chunks} passages`));
     if(p.notes.toLowerCase().includes('review draft')) detail.append(element('small','paper-note','Uploaded review draft'));
-    label.append(checkbox,detail); $('papers').append(label);
+    label.append(checkbox,detail);
+    const link=element('a','paper-link','Open paper ↗');
+    link.href=`/api/papers/${encodeURIComponent(p.id)}/pdf`;link.target='_blank';link.rel='noopener';
+    link.setAttribute('aria-label',`Open ${p.title}`);
+    entry.append(label,link);$('papers').append(entry);
   });
   $('paper-count').textContent=state.papers.length;
   $('corpus-status').textContent=`${state.pages} pages · ${state.passages} indexed passages`;
@@ -28,11 +33,13 @@ async function refresh() {
   $('pdf-upload').closest('label').hidden=state.can_upload===false;
   $('candidates').max=state.max_candidates;
   $('candidates').value=Math.min(state.default_candidates,state.max_candidates);
+  $('agent-mode').disabled=!state.chat_configured;
+  $('agent-mode').title=state.chat_configured?'Ask a question with cited answers':'Answer generation is not enabled on this deployment.';
   if(!state.models_ready || !state.index_ready) {
-    notice.textContent='Model setup is needed for hybrid search. Run “mathpaper models” and “mathpaper index”. BM25 keyword search remains available after indexing.';
+    notice.textContent=state.public_demo?'The paper collection is being prepared. Please try again shortly.':'Model setup is needed for hybrid search. Run “mathpaper models” and “mathpaper index”. BM25 keyword search remains available after indexing.';
     notice.hidden=false;
   } else if(state.public_demo&&!state.chat_configured) {
-    notice.textContent='This public demo supports evidence search across the included papers. Generated answers are not enabled yet.';
+    notice.textContent='Evidence search is ready across all three papers. Answer generation is not enabled on this demo.';
     notice.hidden=false;
   } else if(!state.chat_configured) {
     notice.textContent='Evidence search is ready. To generate agent answers, configure a tool-calling chat model and start the MCP server. See the project README.';

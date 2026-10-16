@@ -16,6 +16,7 @@
     <div id="papers" class="papers"><p class="muted">Loading your papers…</p></div>
     <label class="upload" for="pdf-upload"><span>＋</span> Add a paper<input id="pdf-upload" type="file" accept="application/pdf" hidden></label>
     <div class="sidebar-bottom"><span class="status-dot"></span><span id="corpus-status">Connecting to your collection</span></div>
+    <a class="project-link" href="https://github.com/chandantankala/Applied-Probability-RAG" target="_blank" rel="noopener">Project on GitHub ↗</a>
   </aside>
   <main>
     <header class="topbar"><div><span class="eyebrow">MATHEMATICS RESEARCH</span><span class="topbar-title">A conversation with your papers</span></div><button class="quiet-button" id="new-chat">＋ New conversation</button></header>
@@ -35,7 +36,7 @@
         <div id="messages" class="messages" aria-live="polite"></div>
         <div id="busy" class="busy" hidden><span class="spinner"></span><span id="busy-label">Searching your papers…</span></div>
         <form id="composer" class="composer">
-          <div class="mode-tabs" role="group" aria-label="Interaction mode"><button type="button" class="mode active" data-mode="search">Find evidence</button><button type="button" class="mode" data-mode="chat">Ask the agent</button></div>
+          <div class="mode-tabs" role="group" aria-label="Interaction mode"><button type="button" class="mode active" data-mode="search">Find evidence</button><button type="button" class="mode" id="agent-mode" data-mode="chat" disabled title="Checking answer availability">Ask the agent</button></div>
           <label class="sr-only" for="question">Your research question</label>
           <textarea id="question" placeholder="Ask about a theorem, method, or assumption…" rows="2" maxlength="4000" required></textarea>
           <div class="composer-footer"><span id="mode-caption">Hybrid retrieval · MiniLM reranking</span><button id="send" type="submit" aria-label="Submit question">↑</button></div>

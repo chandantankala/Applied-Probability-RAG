@@ -1,6 +1,6 @@
 # Hosting MathPaper
 
-In this GitHub checkout, the application is under `mathpaper/`, and the root `render.yaml` points to that Docker context. The uploaded PDFs are excluded from the public repository. Supply an authorized corpus before deploying; `deployment/bootstrap.py` verifies file fingerprints and builds the source database before indexing.
+The application is under `mathpaper/`, and the root `render.yaml` points to that Docker context on branch `mathpaper-free-web-demo`. The author's three approved PDFs are included. `deployment/bootstrap.py` verifies their fingerprints and builds the source database before indexing. The associative-memory source is the uploaded ICML 2026 proceedings copy, rather than the earlier review draft.
 
 This setup runs the existing FastAPI interface and Python retrieval pipeline together in one container. The MCP service stays internal on loopback; the website is exposed on the platform's `PORT`. Model files and the vector index are built into the image, so normal web requests do not download weights or rebuild the corpus.
 
@@ -39,14 +39,33 @@ The low-memory profile uses the official pinned `model_quint8_avx2.onnx` exports
 
 `evaluation/free_tier_results.json` records the local INT8 checks, per-process memory peaks, and results at N=20 and N=50. These are local measurements, not proof that the image fits Render's exact memory accounting or meets a latency target on its 0.1 CPU. Confirm that during the first free deployment.
 
-The local sum of individual peak RSS was **393.4 MiB** for the API, MCP service, and supervisor. See [evaluation/FREE_PLAN.md](evaluation/FREE_PLAN.md) for the measurement limits and seed-question results.
+The local sum of individual peak RSS was **399.2 MiB** for the API, MCP service, and supervisor. See [evaluation/FREE_PLAN.md](evaluation/FREE_PLAN.md) for the measurement limits and seed-question results.
 
-1. Supply the authorized source PDFs under `mathpaper/data/papers/`, matching the IDs and hashes in `mathpaper/data/papers.json`. The Docker build bootstraps the database and regenerates vectors; neither database nor vector cache needs to be committed. Source PDFs require explicit authorization before being added to this public repository.
-2. In Render, create a Blueprint from that repository, verify that it says **Free**, and deploy. Alternatively, create a Docker web service from the repository, choose **Free**, and use `/healthz` as its health-check path.
+1. Use repository `chandantankala/Applied-Probability-RAG`, branch **`mathpaper-free-web-demo`**. All three approved PDFs are already included at the paths in `mathpaper/data/papers.json`. The Docker build regenerates the database and vector cache; neither should be committed.
+2. Connect Render to this GitHub repository. Create a Blueprint using this branch and its root `render.yaml`, verify the service says **Free**, and deploy. Alternatively, use the exact manual web-service settings below.
 3. Confirm the build succeeds, health checks pass, paper links open, and a real hybrid-reranked query completes. Inspect peak memory and latency before settling on an instance size.
 4. Use the returned HTTPS URL for the live demo. A custom domain is optional.
 
 The frontend and Python backend share this one free web service. A custom domain and separate database are unnecessary. Normal requests are handled live; answers or retrieval results are not precomputed. The first Docker build and actual free cloud deployment still need to pass.
+
+### Manual web-service settings
+
+| Field | Value |
+|---|---|
+| Repository | `https://github.com/chandantankala/Applied-Probability-RAG` |
+| Branch | `mathpaper-free-web-demo` |
+| Name | `mathpaper-chandan-tankala` (or another available name) |
+| Language/runtime | Docker |
+| Root Directory | `mathpaper` |
+| Dockerfile Path | `./Dockerfile` (relative to that root) |
+| Docker Build Context | `.` (relative to that root) |
+| Instance/compute plan | Free |
+| Health Check Path | `/healthz` |
+| `MATHPAPER_ORT_THREADS` | `1` |
+| `MATHPAPER_PUBLIC_DEMO` | `1` |
+| `MATHPAPER_PUBLIC_CHAT` | `0` |
+
+Leave the Docker command at its image default. The service reads Render's `PORT` automatically. Do not create a second service for MCP; the supervisor runs it privately inside the same container. The dependency versions used for local validation are pinned in `requirements.lock` and used by the Docker build.
 
 ## Run the INT8 profile locally
 

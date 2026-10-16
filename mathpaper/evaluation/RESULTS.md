@@ -8,13 +8,13 @@ All questions search all three papers. N=50 candidates; k=5 retained; reranker p
 
 | Method | Page hits in top 5 | Page hits among 50 candidates | Median query time |
 |---|---:|---:|---:|
-| bm25 | 9/10 | 10/10 | 16.4 ms |
-| dense | 8/10 | 10/10 | 44.8 ms |
-| hybrid | 8/10 | 10/10 | 42.4 ms |
-| hybrid-rerank | 10/10 | 10/10 | 2011.5 ms |
+| bm25 | 9/10 | 10/10 | 16.3 ms |
+| dense | 7/10 | 10/10 | 38.4 ms |
+| hybrid | 8/10 | 10/10 | 37.2 ms |
+| hybrid-rerank | 9/10 | 10/10 | 2831.7 ms |
 
 ## Queries missed by hybrid + reranking
 
-None in this small seed set.
+- gaussian-separation
 
 These questions were created during development. Do not report the results as a general RAG benchmark. Next, label additional unseen questions at passage level, include unanswerable and multi-paper questions, and separately evaluate support, citation correctness, assumptions, and latency percentiles. No live generative model was used in this retrieval check.

@@ -20,7 +20,7 @@ from mathpaper.networking import mcp_transport
 from mathpaper.store import data_path
 
 MEAN_FIELD = "391b111dc9c0fe55"
-GAUSSIAN = "b0646b9f5fd8b361"
+GAUSSIAN = "f6865ff3020bde53"
 
 
 class ScriptedModel:
@@ -54,7 +54,7 @@ class ScriptedModel:
 async def main():
     async with httpx.AsyncClient(base_url="http://127.0.0.1:8000", timeout=90, trust_env=False) as api:
         status = (await api.get("/api/status")).json()
-        assert len(status["papers"]) >= 3 and status["pages"] >= 78 and status["passages"] >= 411
+        assert len(status["papers"]) == 3 and status["pages"] == 78 and status["passages"] > 0
         for paper in status["papers"]:
             original = await api.get("/api/papers/"+paper["id"]+"/pdf")
             assert original.status_code == 200 and hashlib.sha256(original.content).hexdigest() == paper["sha256"]
@@ -76,11 +76,14 @@ async def main():
         assert payload["sources"] and all(s["paper_id"] == MEAN_FIELD for s in payload["sources"])
         result = await client.call_tool("get_statement", {"paper_id": GAUSSIAN, "label": "Assumption 1"})
         body = result.data if isinstance(result.data, dict) else result.structured_content
-        assert {s["page"] for s in body["sources"]} == {4, 5} and not body["truncated"]
+        assert {s["page"] for s in body["sources"]} == {5} and not body["truncated"]
+        result = await client.call_tool("get_statement", {"paper_id": GAUSSIAN, "label": "Theorem 1"})
+        body = result.data if isinstance(result.data, dict) else result.structured_content
+        assert {s["page"] for s in body["sources"]} == {5, 6} and not body["truncated"]
         result = await client.call_tool("get_context", {"source_id": payload["sources"][0]["source_id"]})
         body = result.data if isinstance(result.data, dict) else result.structured_content
         assert {"Assumption 4", "Assumption 5", "Assumption 6"} <= set(body["referenced_labels"])
-        print("PASS: Live MCP discovery, hybrid + reranked search, cross-page assumption lookup, context references.", flush=True)
+        print("PASS: Live MCP discovery, hybrid + reranked search, published-version statement boundaries, context references.", flush=True)
 
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)

@@ -4,7 +4,7 @@
 
 The new [MathPaper application](mathpaper/README.md) adds BM25 + dense hybrid retrieval, the selected MiniLM cross-encoder reranker, page-linked evidence, and bounded MCP research tools. Its [deployment guide](mathpaper/DEPLOYMENT.md) describes the free Render configuration in the root `render.yaml`.
 
-The source code is ready for review. The three uploaded paper PDFs are **not included in this public repository**; adding them requires explicit redistribution authorization. The Docker build needs the approved corpus before it can complete. No live website or live generative model has been configured yet. The measured checks in `mathpaper/evaluation/` were performed with the local uploaded corpus, and the ten seed questions are not a held-out benchmark.
+The author's three approved PDFs are included under `mathpaper/data/papers/`. The Docker build verifies their fingerprints and builds the index from these exact copies, including the uploaded ICML 2026 proceedings version of the associative-memory paper. The free Render deployment targets branch `mathpaper-free-web-demo`. A hosting connection and an answering-model configuration are still needed; no live website is claimed. The ten evaluation questions are development checks, not a held-out benchmark.
 
 The earlier Streamlit/Voyage/Claude prototype remains below.
 

@@ -12,7 +12,8 @@ tests
 evaluation
 data/models
 data/models-int8
-data/conversations.sqlite*
+data/*.sqlite*
+data/*.npz
 data/*-wal
 data/*-shm
 *.zip
