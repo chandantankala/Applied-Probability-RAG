@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-let state = null, interaction = 'search', working = false;
+let state = null, interaction = 'search', working = false, modeInitialized = false;
 let thread = sessionStorage.getItem('mathpaper-thread') || crypto.randomUUID();
 sessionStorage.setItem('mathpaper-thread', thread);
 function element(tag, cls, text) { const node=document.createElement(tag); if(cls) node.className=cls; if(text!==undefined) node.textContent=text; return node; }
@@ -11,6 +11,11 @@ async function api(url, payload) {
   return data;
 }
 function selectedPapers() { return [...document.querySelectorAll('.paper-option input:checked')].map(x=>x.value); }
+function chooseMode(mode) {
+  interaction=mode;
+  document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  $('mode-caption').textContent=mode==='chat'?'Cited answers · Checked against your papers':'Hybrid retrieval · MiniLM reranking';
+}
 async function refresh() {
   state = await api('/api/status');
   const before=new Set(selectedPapers()), first=!$('papers').querySelector('input');
@@ -35,16 +40,22 @@ async function refresh() {
   $('candidates').value=Math.min(state.default_candidates,state.max_candidates);
   $('agent-mode').disabled=!state.chat_configured;
   $('agent-mode').title=state.chat_configured?'Ask a question with cited answers':'Answer generation is not enabled on this deployment.';
+  $('provider-notice').hidden=!(state.chat_configured&&state.answer_provider==='gemini');
+  if(!modeInitialized) { chooseMode(state.chat_configured?'chat':'search'); modeInitialized=true; }
+  else if(interaction==='chat'&&!state.chat_configured) chooseMode('search');
   if(!state.models_ready || !state.index_ready) {
     notice.textContent=state.public_demo?'The paper collection is being prepared. Please try again shortly.':'Model setup is needed for hybrid search. Run “mathpaper models” and “mathpaper index”. BM25 keyword search remains available after indexing.';
     notice.hidden=false;
   } else if(state.public_demo&&!state.chat_configured) {
-    notice.textContent='Evidence search is ready across all three papers. Answer generation is not enabled on this demo.';
+    notice.textContent='Evidence search is ready across all three papers. Generated answers are waiting for the model connection.';
     notice.hidden=false;
   } else if(!state.chat_configured) {
     notice.textContent='Evidence search is ready. To generate agent answers, configure a tool-calling chat model and start the MCP server. See the project README.';
     notice.hidden=false;
-  } else { notice.hidden=true; }
+  } else {
+    notice.textContent=state.public_demo?`Ask the agent for an answer with page citations. This free demo shares a limit of ${state.chat_daily_limit} questions per day.`:'';
+    notice.hidden=!state.public_demo;
+  }
 }
 function addMessage(role,text) {
   $('welcome').hidden=true;
@@ -80,7 +91,7 @@ $('composer').addEventListener('submit',async event=>{
     if(interaction==='search') {
       const result=await api('/api/search',{question,paper_ids,candidates:Number($('candidates').value),top_k:Number($('top-k').value),mode:$('retrieval-mode').value,max_length:512});
       showSources(result.sources);
-      const message=addMessage('assistant',result.sources.length?`Found ${result.sources.length} passages relevant to your question. Inspect the evidence cards and open the original pages to check the mathematical details.`:'No passages were found for the selected papers. Try different wording.');
+      const message=addMessage('assistant',result.sources.length?`Ranked ${result.sources.length} passages for your question. These are search results; they may not contain an answer. Inspect the evidence cards and original pages.`:'No passages were found for the selected papers. Try different wording.');
       message.append(element('small','',`${result.mode} · ${result.timing_ms} ms · ${result.candidates_scored} pairs reranked`));
       $('trace').textContent=JSON.stringify({mode:result.mode,candidates_scored:result.candidates_scored,timing_ms:result.timing_ms,score_note:result.score_note},null,2);
     } else {
@@ -88,7 +99,7 @@ $('composer').addEventListener('submit',async event=>{
       const node=addMessage('assistant',result.abstained?'I could not substantiate an answer from the selected papers within the search budget. Try naming a theorem or paper, or inspect the evidence directly.':'');
       result.claims.forEach(claim=>{node.append(element('p','',claim.text));citations(node,claim.source_ids,result.sources);});
       node.append(element('small','',`${result.tool_calls} tool calls · ${(result.timing_ms/1000).toFixed(1)} s · ${result.notice}`));
-      $('trace').textContent=JSON.stringify(result.trace,null,2);
+      $('trace').textContent=JSON.stringify({steps:result.trace,model_calls:result.model_calls,token_usage:result.usage},null,2);
     }
     $('trace-details').hidden=false;
   } catch(error) {addMessage('assistant',error.message);}
@@ -96,7 +107,7 @@ $('composer').addEventListener('submit',async event=>{
 });
 $('question').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();$('composer').requestSubmit();}});
 document.querySelectorAll('[data-question]').forEach(button=>button.addEventListener('click',()=>{$('question').value=button.dataset.question;$('composer').requestSubmit();}));
-document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{interaction=button.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b===button));$('mode-caption').textContent=interaction==='chat'?'Research tools · Source checks · Cited answers':'Hybrid retrieval · MiniLM reranking';}));
+document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>chooseMode(button.dataset.mode)));
 $('new-chat').addEventListener('click',()=>{if(working)return;thread=crypto.randomUUID();sessionStorage.setItem('mathpaper-thread',thread);$('messages').replaceChildren();$('welcome').hidden=false;showSources([]);$('trace-details').hidden=true;});
 $('pdf-upload').addEventListener('change',async event=>{const file=event.target.files[0];if(!file)return;toast('Adding the paper and updating its index…');const data=new FormData();data.append('file',file);try{const response=await fetch('/api/upload',{method:'POST',body:data});const result=await response.json();if(!response.ok)throw new Error(result.detail);await refresh();toast(result.already_ingested?'This exact PDF is already in the collection.':'Paper added.');}catch(error){toast(error.message);}event.target.value='';});
 refresh().catch(error=>{$('connection-notice').hidden=false;$('connection-notice').textContent='Could not connect to the Python service: '+error.message;});

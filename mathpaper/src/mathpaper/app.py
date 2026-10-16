@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import asyncio
 import importlib.util
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -11,6 +13,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .agent import run_agent
+from .limits import ChatLimitError, PublicChatGuard, daily_limit
+from .llm import ChatModel, ChatServiceError
 from .ingest import build_chunks, ingest_pdf
 from .retrieval import ResearchIndex
 from .store import chunks, data_path, papers, records
@@ -26,6 +30,10 @@ def public_demo() -> bool:
 
 def chat_allowed() -> bool:
     return not public_demo() or os.getenv("MATHPAPER_PUBLIC_CHAT", "0") == "1"
+
+
+def chat_configured() -> bool:
+    return chat_allowed() and ChatModel().configured() and bool(importlib.util.find_spec("fastmcp"))
 
 
 class SearchRequest(BaseModel):
@@ -51,7 +59,7 @@ def home():
 @app.get("/api/status")
 def status():
     corpus = papers()
-    return {"papers": corpus, "pages": sum(p["pages"] for p in corpus), "passages": len(chunks()), "models_ready": index.models.ready(), "index_ready": index.vector_path.exists(), "embedding_model": "sentence-transformers/all-MiniLM-L6-v2", "reranker_model": "cross-encoder/ms-marco-MiniLM-L6-v2", "model_precision": index.models.precision, "max_candidates": min(150, max(1, int(os.getenv("MATHPAPER_MAX_CANDIDATES", "150")))), "default_candidates": int(os.getenv("MATHPAPER_DEFAULT_CANDIDATES", "50")), "chat_model": os.getenv("MATHPAPER_CHAT_MODEL", ""), "agent_installed": bool(importlib.util.find_spec("fastmcp")), "chat_configured": chat_allowed() and bool(os.getenv("MATHPAPER_CHAT_MODEL")) and bool(importlib.util.find_spec("fastmcp")), "public_demo": public_demo(), "can_upload": not public_demo()}
+    return {"papers": corpus, "pages": sum(p["pages"] for p in corpus), "passages": len(chunks()), "models_ready": index.models.ready(), "index_ready": index.vector_path.exists(), "embedding_model": "sentence-transformers/all-MiniLM-L6-v2", "reranker_model": "cross-encoder/ms-marco-MiniLM-L6-v2", "model_precision": index.models.precision, "max_candidates": min(150, max(1, int(os.getenv("MATHPAPER_MAX_CANDIDATES", "150")))), "default_candidates": int(os.getenv("MATHPAPER_DEFAULT_CANDIDATES", "50")), "chat_model": os.getenv("MATHPAPER_CHAT_MODEL", ""), "agent_installed": bool(importlib.util.find_spec("fastmcp")), "chat_configured": chat_configured(), "answer_provider": os.getenv("MATHPAPER_LLM_PROVIDER", "ollama"), "chat_daily_limit": daily_limit() if public_demo() else None, "public_demo": public_demo(), "can_upload": not public_demo()}
 
 
 @app.get("/healthz")
@@ -91,10 +99,28 @@ def context(source_id: str):
 async def chat(request: ChatRequest):
     if not chat_allowed():
         raise HTTPException(403, "Generated answers are not enabled on this public demo. Find evidence is available.")
+    if not chat_configured():
+        raise HTTPException(503, "The answering model is not connected yet. Find evidence is ready to use.")
+    if not request.question.strip():
+        raise HTTPException(422, "Enter a research question.")
+    guard, token = PublicChatGuard(), None
     try:
-        return await run_agent(request.question, request.thread_id, request.paper_ids)
+        if public_demo():
+            token = guard.reserve()
+        return await asyncio.wait_for(run_agent(request.question.strip(), request.thread_id, request.paper_ids), timeout=180)
+    except ChatLimitError as error:
+        raise HTTPException(429, str(error), headers={"Retry-After": str(error.retry_after)}) from error
+    except ChatServiceError as error:
+        raise HTTPException(503, str(error)) from error
+    except TimeoutError as error:
+        raise HTTPException(504, "The answer took too long. Try a narrower question or use Find evidence.") from error
     except Exception as error:
-        raise HTTPException(409, "Agent request failed: "+str(error)[:400]) from error
+        # Never reflect provider exception text, tool content, headers or credentials.
+        logging.getLogger(__name__).warning("Agent request failed (%s)", type(error).__name__)
+        raise HTTPException(503, "The answer could not be completed. Please try again or use Find evidence.") from error
+    finally:
+        if token:
+            guard.release(token)
 
 
 @app.post("/api/upload")

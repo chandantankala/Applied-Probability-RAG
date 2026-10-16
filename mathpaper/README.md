@@ -6,7 +6,7 @@ This checkout includes the author's three approved source PDFs. The derived data
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
 
-**Ready now:** searching the papers and opening the source PDF pages. **One configuration step remains for generated answers:** connect a tool-calling chat LLM. No generative model or paid API account has been selected or used in preparing this project.
+**Ready now:** searching the papers and opening the source PDF pages. A native Gemini adapter is prepared for **Gemini 3.5 Flash-Lite**, currently offered with free input/output tokens on eligible free-tier projects. **One secure setup step remains for generated answers:** add the owner's API key in Render. No paid model account has been enabled and no live generative model has been called.
 
 For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The live Render service uses its **free** plan, smaller INT8 versions of both MiniLM models, and public evidence search with uploads and generated answers disabled.
 
@@ -48,6 +48,29 @@ The approved PDFs are already at the fingerprinted paths in `data/papers.json`. 
 
 MiniLM generates embeddings and relevance scores; it does not write answers. The agent needs a separate model that supports tool calls and JSON output.
 
+### Free Gemini connection on Render
+
+The native adapter calls Google's `generateContent` API, preserves opaque thought signatures and parallel function-call IDs, and uses JSON output for the separate support check. It does not send keys or private reasoning to the browser. Gemini 3.5 Flash-Lite is a starting model for this experiment, not an evaluated mathematical accuracy claim.
+
+1. Open [Google AI Studio API keys](https://aistudio.google.com/api-keys). Create a key in a project marked **Free tier**, without enabling billing. Free quotas depend on the project; view the actual limits in AI Studio.
+2. In the [Render service environment](https://dashboard.render.com/web/srv-db8n62vf3r2c73emj59g/env), configure these runtime values:
+
+   ```dotenv
+   MATHPAPER_LLM_PROVIDER=gemini
+   MATHPAPER_LLM_URL=https://generativelanguage.googleapis.com/v1beta
+   MATHPAPER_CHAT_MODEL=gemini-3.5-flash-lite
+   MATHPAPER_PUBLIC_CHAT=1
+   MATHPAPER_API_KEY=YOUR_PRIVATE_KEY
+   ```
+
+3. Save and deploy. The key is a server secret; never paste it into chat, commit it, or put it into frontend code. **Ask the agent** remains disabled until a key is present, then becomes the default mode. A configured key still requires a real request to verify access, quota, tool use, and answer quality.
+
+The free API terms allow Google to use submitted content to improve its products. Model requests contain questions, relevant history and extracted paper passages. The interface discloses the provider before chat use. Use the project's free tier to avoid charges; the app does not inspect Google's billing state and its local quota is not a provider spending cap.
+
+The public demo admits one active answer, has a shared rolling limit of 20 requests per 24 hours and a 20-second interval between starts, and limits each question to 10 model requests and 180 seconds. Failed or abandoned questions count toward the daily quota. Request counts are SQLite metadata without visitor identifiers; Render's ephemeral disk resets them on redeploy. Search remains available when answer generation is limited. Configure `MATHPAPER_CHAT_DAILY_LIMIT`, `MATHPAPER_CHAT_COOLDOWN`, or `MATHPAPER_MAX_MODEL_CALLS` to adjust these small-demo limits.
+
+### Other answering services
+
 Copy `.env.example` to `.env` in this folder. The app loads it when started; existing shell variables take precedence. Edit the values locally and restart the servers after a change.
 
 For a local Ollama service with a suitable model already installed:
@@ -67,7 +90,7 @@ MATHPAPER_CHAT_MODEL=YOUR_MODEL_NAME
 MATHPAPER_API_KEY=YOUR_KEY
 ```
 
-The hosted adapter expects `tools`, `response_format=json_object`, `temperature`, and `max_tokens`; a service with a different API will need a small adapter change in `agent.py`. Credentials belong in your local `.env`, which is ignored by Git. A hosted model receives the question, relevant conversation history, and retrieved passages. The local option keeps these model requests on your machine.
+The generic hosted adapter expects `tools`, `response_format=json_object`, `temperature`, and `max_tokens`; a service with a different API needs an adapter in `llm.py`. Gemini uses its separate native adapter. Credentials belong in your local `.env`, which is ignored by Git. A hosted model receives the question, relevant conversation history, and retrieved passages. The local option keeps these model requests on your machine.
 
 Keep `mathpaper serve` running. Open a second terminal, activate the same environment, change to this folder, and run:
 
@@ -75,7 +98,7 @@ Keep `mathpaper serve` running. Open a second terminal, activate the same enviro
 mathpaper mcp
 ```
 
-This starts the MCP service at `http://127.0.0.1:8001/mcp`. Refresh the interface and choose **Ask the agent**. A configured model name enables that mode; the first request will reveal whether your model service and MCP connection are reachable.
+This starts the MCP service at `http://127.0.0.1:8001/mcp`. Refresh the interface and choose **Ask the agent**. A configured model enables that mode (Gemini also requires a key); the first request will reveal whether your model service and MCP connection are reachable. The Render supervisor already starts this internal service.
 
 ## Included papers
 
@@ -116,7 +139,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 ## What has been checked
 
 - Real CPU embedding and cross-encoder inference on all 404 passages and the starter questions.
-- Sixteen deterministic tests for fusion, paper filtering, stale-vector rejection, precision-specific caches, content identity, statement boundaries (including a heading merged with an equation), source links, citation validation, bounded thread history, and public-demo restrictions.
+- Twenty-five deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
 - HTTP endpoints and original-PDF byte hashes.
 - Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
@@ -163,7 +186,9 @@ python evaluation/evaluate.py
 | `src/mathpaper/model-lock.json` | Revisions and file checksums for both models |
 | `src/mathpaper/retrieval.py` | BM25, cosine search, RRF, reranking, statement/context lookup |
 | `src/mathpaper/mcp_server.py` | MCP tools calling the local retrieval API |
-| `src/mathpaper/agent.py` | Model adapters, tool loop, claim checks, repair, conversation memory |
+| `src/mathpaper/agent.py` | Tool loop, claim checks, repair, conversation memory |
+| `src/mathpaper/llm.py` | Native Gemini and generic answering adapters, call budget, safe provider errors |
+| `src/mathpaper/limits.py` | Public shared daily quota, cooldown, and active-request lease |
 | `src/mathpaper/app.py` | FastAPI routes and local PDF serving |
 | `src/mathpaper/web/` | Browser interface |
 | `tests/` | Deterministic safeguards |

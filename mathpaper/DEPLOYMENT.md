@@ -94,13 +94,15 @@ Current Hugging Face documentation requires a paid plan to create a Docker Space
 3. Upload or push the project to that Space. The root Dockerfile will build and expose port 7860.
 4. Confirm the app is running and test the real retrieval and original-PDF links before sharing its URL.
 
-## Add the generating model later
+## Connect the prepared answering model
 
-Configure the LLM provider, URL, model, and API key using the hosting platform's runtime settings; keep API keys in its secret storage. The image never needs those keys at build time. The server currently supports a tool-calling Ollama service or a compatible Chat Completions service.
+Configure the LLM provider, URL, model, and API key using the hosting platform's runtime settings; keep API keys in its secret storage. The image never needs those keys at build time. The server supports native Gemini, a tool-calling Ollama service, or a compatible Chat Completions service.
 
-For a zero-cost prototype, a model with an available free API tier is a candidate. Google's Gemini API currently offers free input/output tokens for selected models, with limits. Stay on its free tier if the budget must remain zero. We have not configured or tested a live Gemini model; its tool-call metadata and structured-output behavior must be verified before enabling public chat. Free-tier service terms include use of submitted content to improve Google's products.
+For this zero-cost prototype, the prepared model is **`gemini-3.5-flash-lite`**. Official pricing and model documentation checked October 16, 2026 list free input/output tokens, function calling, and structured output. Stay in an AI Studio project marked **Free tier**, without enabling billing. Free-tier terms include use of submitted content to improve Google's products. The app cannot verify the project's billing state.
 
-Before enabling open-ended generated answers for public traffic, add the chosen provider's spending cap and an application request limit. Keep the retrieval demo public while answer quality and cost are being evaluated. Simply naming a model does not establish that its endpoint, tool calling, or grounding quality works.
+Set these non-secret runtime values in Render: `MATHPAPER_LLM_PROVIDER=gemini`, `MATHPAPER_LLM_URL=https://generativelanguage.googleapis.com/v1beta`, `MATHPAPER_CHAT_MODEL=gemini-3.5-flash-lite`, and `MATHPAPER_PUBLIC_CHAT=1`. The owner must add `MATHPAPER_API_KEY` privately. Chat readiness requires the key, so search stays usable while setup is incomplete. The native adapter replays signatures and function IDs, omits removed sampling controls, and checks final claims in a separate JSON request. Protocol fixtures pass; a real key and live request are still required to verify access and quality.
+
+Public answer generation admits one active request, at most 20 shared requests in 24 hours, and a 20-second interval between starts. Each question is bounded to 10 model calls and 180 seconds. Failures count against the quota. The SQLite quota persists across app restarts on the same filesystem, but resets when Render replaces its ephemeral disk. These are small-demo application controls, not billing controls. Retrieval remains public and the interface defaults to generated answers only when configured.
 
 Runtime conversation history is currently local SQLite and may disappear on restart or redeployment without persistent storage. Benchmark questions and evaluation results belong in the repository or a persistent experiment store; do not rely on this container's writable disk as an experiment archive.
 
@@ -131,3 +133,7 @@ Official references checked October 15, 2026:
 - https://huggingface.co/pricing
 - https://ai.google.dev/gemini-api/docs/pricing
 - https://ai.google.dev/gemini-api/docs/openai
+- https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite
+- https://ai.google.dev/gemini-api/docs/generate-content/whats-new-gemini-3.6
+- https://ai.google.dev/gemini-api/docs/generate-content/gemini-3
+- https://ai.google.dev/api/generate-content

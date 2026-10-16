@@ -64,7 +64,7 @@ async def main():
         assert (await api.post("/api/search", json={"question": "test", "top_k": 10, "candidates": 5})).status_code == 409
         if not status["chat_configured"]:
             chat = await api.post("/api/chat", json={"question": "What is Theorem 1?", "thread_id": "no-model-smoke"})
-            assert chat.status_code == 409 and "Choose a chat model" in chat.json()["detail"]
+            assert chat.status_code == 503 and "not connected" in chat.json()["detail"]
         print("PASS: HTTP assets, source PDF byte hashes, corpus metadata, invalid settings and chat readiness.", flush=True)
 
     async with Client(mcp_transport("http://127.0.0.1:8001/mcp")) as client:
