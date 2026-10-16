@@ -1,14 +1,14 @@
 # MathPaper
 
-**Live demo:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Evidence search is public; generated answers are disabled until an answering model is connected. Free hosting can take about a minute to wake after inactivity.
+**Live demo:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Cited answers and evidence search are public. Free hosting can take about a minute to wake after inactivity.
 
 This checkout includes the author's three approved source PDFs. The derived database, vectors, model weights, and secrets are excluded from Git. The Docker build verifies the PDF fingerprints and rebuilds the corpus; publishing this source alone does not deploy a website.
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
 
-**Ready now:** searching the papers and opening the source PDF pages. A native Gemini adapter is prepared for **Gemini 3.5 Flash-Lite**, currently offered with free input/output tokens on eligible free-tier projects. **Current connection state:** the owner has added the key privately in Render, but Google rejects live requests with HTTP 403 (`PERMISSION_DENIED`). Generated answers are not operational until that access issue is resolved. No paid model account has been enabled.
+**Ready now:** generated answers with original-page citations, contextual follow-up questions, evidence search, and source PDF links. The live model is **Gemini 3.5 Flash-Lite**, connected through a server-side key. The initial Google access rejection has cleared, and three live smoke checks pass. No paid model account has been enabled.
 
-For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The live Render service uses its **free** plan, smaller INT8 versions of both MiniLM models, and public evidence search with uploads and generated answers disabled.
+For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The live Render service uses its **free** plan, smaller INT8 versions of both MiniLM models, and public cited answers and evidence search, with uploads disabled.
 
 ## Start with evidence search
 
@@ -132,14 +132,14 @@ The agent chooses among three MCP tools:
 - `get_statement`: look up a labelled theorem, lemma, definition, or assumption, including continuation blocks up to the next detected boundary.
 - `get_context`: expand a retrieved passage and list referenced statement labels for follow-up lookup.
 
-The agent has a default budget of six tool calls and one repair attempt. It drafts up to six claims with source IDs. The controller rejects IDs that were not retrieved in that turn. A separate LLM call checks each remaining claim against its cited text. Only supported claims are displayed and stored; the system can return a partial answer or abstain. Source text is treated as untrusted data in the prompts, and cross-paper tool requests are restricted by the controller.
+The agent has a default budget of six tool calls and one repair attempt. Agent searches default to 20 candidates (`MATHPAPER_AGENT_CANDIDATES`); the separate Find evidence controls retain their own candidate limits. Native Gemini calls use JSON schemas for both draft claims and support verdicts, including tool-calling turns. It drafts up to six claims with source IDs. The controller rejects IDs that were not retrieved in that turn. A separate LLM call checks each remaining claim against its cited text. Only supported claims are displayed and stored; the system can return a partial answer or abstain. Source text is treated as untrusted data in the prompts, and cross-paper tool requests are restricted by the controller.
 
 This gate reduces unsupported output but cannot certify mathematical correctness. It uses the same configured model for a separate checking call, so correlated mistakes remain possible. A citation proves provenance, not entailment. Extraction can scramble symbols, inequality signs, superscripts, and equation order; the linked PDF is authoritative. Statement lookup is a bounded layout heuristic and may include nearby prose or figures. The checker is instructed to withhold precise mathematical claims when extraction is ambiguous.
 
 ## What has been checked
 
 - Real CPU embedding and cross-encoder inference on all 404 passages and the starter questions.
-- Twenty-six deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
+- Twenty-seven deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, structured answer/check schemas, safe access diagnostics, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
 - HTTP endpoints and original-PDF byte hashes.
 - Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
@@ -147,7 +147,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 - The container entry point, configurable public port, readiness, real retrieval, internal MCP routing, and graceful shutdown. The first Render Docker image built successfully, and the free service passed live health, corpus, original-PDF fingerprint, and published-version statement checks. See `evaluation/cloud_validation.json`.
 - The INT8 profile on the same ten development seed questions at N=20 and N=50, along with local memory measurements. These checks are recorded separately in `evaluation/free_tier_results.json` and do not establish performance on the actual free cloud instance.
 
-Live Gemini requests currently return HTTP 403 (`PERMISSION_DENIED`), before generation. No successful generative answer has been produced; mathematical answer quality, model tool-use reliability, end-to-end chat latency, and hallucination rates remain unmeasured. See `evaluation/chat_connection_validation.json` for the observed connection failure.
+Three live browser smoke checks passed on the free Render service: a cited Theorem 1 summary (14.1 seconds), a contextual follow-up about assumptions and sampling (45.5 seconds), and abstention on an unrelated question (1.4 seconds). The answer and follow-up cite the relevant PDF pages, including Algorithm 2 on page 30. These individual examples do not establish mathematical answer accuracy, hallucination rates, held-out tool-use reliability, or latency percentiles. Full observations, including initial access failures and the earlier withheld follow-up, are in `evaluation/chat_connection_validation.json`.
 
 The ten development questions in `evaluation/questions.json` are a starting smoke set, with labels updated for the included proceedings PDF. Current page-hit counts and measured timings are in [evaluation/RESULTS.md](evaluation/RESULTS.md). They are **not** a held-out benchmark or answer-accuracy result. The separation-condition question still requires a follow-up statement lookup when its definition is missing from the top five passages.
 

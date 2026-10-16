@@ -4,13 +4,13 @@ The application is under `mathpaper/`, and the root `render.yaml` points to that
 
 This setup runs the existing FastAPI interface and Python retrieval pipeline together in one container. The MCP service stays internal on loopback; the website is exposed on the platform's `PORT`. Model files and the vector index are built into the image, so normal web requests do not download weights or rebuild the corpus.
 
-**Live on Render Free:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Render built the Docker image and started the single free service successfully. Live checks passed readiness, corpus metadata, all three original-PDF fingerprints, and published-version statement lookup; a browser query returned five reranked passages. `evaluation/cloud_validation.json` records the initial deployment checks. Generated answers remain disabled until a model is connected. No paid resources were created.
+**Live on Render Free:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Render built the Docker image and started the single free service successfully. Live checks passed readiness, corpus metadata, all three original-PDF fingerprints, and published-version statement lookup; a browser query returned five reranked passages. `evaluation/cloud_validation.json` records the initial deployment checks. Gemini cited answers are now connected, with a live theorem answer, contextual follow-up, and out-of-scope abstention verified in `evaluation/chat_connection_validation.json`. No paid resources were created.
 
 ## Public demo defaults
 
 - Evidence search works over the three included papers, with BM25, dense, hybrid, and hybrid + reranking controls.
 - Uploads are disabled on both the server and interface. Updating the shared corpus is an owner operation followed by a rebuild.
-- Generated answers are disabled until a model is chosen and `MATHPAPER_PUBLIC_CHAT=1` is explicitly set. No LLM API secret is included in the image.
+- The image keeps generated answers disabled by default. The live service explicitly sets `MATHPAPER_PUBLIC_CHAT=1` and its Gemini runtime configuration. No LLM API secret is included in the image or repository.
 - Both MiniLM models run on CPU. The container now defaults to the pinned INT8 exports of the same models, batch size 1, and 20 candidates; visitors can experiment with up to 50 candidates. No GPU is required for retrieval.
 - Use one API worker; the supervisor exits if either the API or MCP process dies, allowing the host to restart the container.
 
@@ -100,7 +100,7 @@ Configure the LLM provider, URL, model, and API key using the hosting platform's
 
 For this zero-cost prototype, the prepared model is **`gemini-3.5-flash-lite`**. Official pricing and model documentation checked October 16, 2026 list free input/output tokens, function calling, and structured output. Stay in an AI Studio project marked **Free tier**, without enabling billing. Free-tier terms include use of submitted content to improve Google's products. The app cannot verify the project's billing state.
 
-Set these non-secret runtime values in Render: `MATHPAPER_LLM_PROVIDER=gemini`, `MATHPAPER_LLM_URL=https://generativelanguage.googleapis.com/v1beta`, `MATHPAPER_CHAT_MODEL=gemini-3.5-flash-lite`, and `MATHPAPER_PUBLIC_CHAT=1`. The owner must add `MATHPAPER_API_KEY` privately. Chat readiness requires the key, so search stays usable while setup is incomplete. The native adapter replays signatures and function IDs, omits removed sampling controls, and checks final claims in a separate JSON request. Protocol fixtures pass; a real key and live request are still required to verify access and quality.
+Set these non-secret runtime values in Render: `MATHPAPER_LLM_PROVIDER=gemini`, `MATHPAPER_LLM_URL=https://generativelanguage.googleapis.com/v1beta`, `MATHPAPER_CHAT_MODEL=gemini-3.5-flash-lite`, and `MATHPAPER_PUBLIC_CHAT=1`. The owner must add `MATHPAPER_API_KEY` privately. Chat readiness requires the key, so search stays usable while setup is incomplete. The native adapter replays signatures and function IDs, omits removed sampling controls, constrains draft/check output with JSON schemas, and checks final claims in a separate request. Both protocol fixtures and three real browser smoke cases pass. Agent searches default to 20 candidates to bound CPU work; Find evidence remains independently adjustable. Broader mathematical quality and latency distributions remain unmeasured.
 
 Public answer generation admits one active request, at most 20 shared requests in 24 hours, and a 20-second interval between starts. Each question is bounded to 10 model calls and 180 seconds. Failures count against the quota. The SQLite quota persists across app restarts on the same filesystem, but resets when Render replaces its ephemeral disk. These are small-demo application controls, not billing controls. Retrieval remains public and the interface defaults to generated answers only when configured.
 
@@ -137,3 +137,5 @@ Official references checked October 15, 2026:
 - https://ai.google.dev/gemini-api/docs/generate-content/whats-new-gemini-3.6
 - https://ai.google.dev/gemini-api/docs/generate-content/gemini-3
 - https://ai.google.dev/api/generate-content
+
+Live generative validation on October 16, 2026 (UTC): Theorem 1 summary 14.1 s; same-thread sampling/assumptions follow-up 45.5 s; unrelated-question abstention 1.4 s. These are individual development observations on the free service, not a benchmark. The initial Google access error later cleared without changing the saved key; no cause was established. See `evaluation/chat_connection_validation.json`.

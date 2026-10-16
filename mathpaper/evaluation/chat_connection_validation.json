@@ -1,6 +1,13 @@
 {
-  "site": "https://mathpaper-chandan-tankala.onrender.com",
-  "checks": [
+  "site": "https://mathpaper-chandan-tankala.onrender.com/",
+  "service_id": "srv-db8n62vf3r2c73emj59g",
+  "checked_at_utc": "2026-10-16T01:57:47.763Z",
+  "deployed_code_commit": "a089a49d660aebfe149d3cd584a46e83921373e3",
+  "model": "gemini-3.5-flash-lite",
+  "outcome": "passed_three_live_smoke_checks",
+  "deterministic_tests_passed": 27,
+  "real_local_http_mcp_integration": "passed",
+  "initial_access_rejections": [
     {
       "question": "What does Theorem 1 establish in Dense associative memory for Gaussian distributions? Summarize its conclusion in plain language.",
       "http_status": 503,
@@ -19,23 +26,442 @@
       "commit": "db2bc275bc7af24d08078f4114489663df8c3666"
     }
   ],
-  "status": {
-    "chat_configured": true,
-    "chat_model": "gemini-3.5-flash-lite",
-    "answer_provider": "gemini",
-    "chat_daily_limit": 20,
-    "passages": 404,
-    "public_demo": true
+  "before_fix_browser_observations": {
+    "stage": "before-structured-output-fix",
+    "conversation": "What does Theorem 1 establish in Dense associative memory for Gaussian distributions?\n\nMATHPAPER\n\nFor all d >= 4, the separation condition in Assumption 1 is satisfied with probability at least 1 - p.\n\nSource · p. 6\n\nThere exists d0 in Z+ such that for all d >= d0 and beta >= max{1, beta0}, the energy functional stores all N = floor(sqrt(p) e^{alpha d}) randomly sampled Gaussian measures with probability at least 1 - p.\n\nSource · p. 6\n3 tool calls · 39.6 s · Support checks are fallible; verify mathematical details against the linked original pages.\n\nWhat sampling setup and assumptions does that theorem rely on? Explain how the Gaussian measures are chosen.\n\nMATHPAPER\n\nI could not substantiate an answer from the selected papers within the search budget. Try naming a theorem or paper, or inspect the evidence directly.\n\n5 tool calls · 122.1 s · Support checks are fallible; verify mathematical details against the linked original pages.\nFind evidence\nAsk the agent\nYour research question\nCited answers · Checked against your papers\n↑\nCheck mathematical symbols and assumptions against the linked original pages.\nAnswers use Gemini. Questions and paper excerpts are sent to Google under its free API terms.",
+    "last_trace": {
+      "steps": [
+        {
+          "tool": "search_passages",
+          "arguments": {
+            "query": "Theorem 1 Gaussian measures separation condition Assumption 1",
+            "paper_ids": [
+              "f6865ff3020bde53"
+            ],
+            "candidates": 50,
+            "top_k": 5
+          },
+          "sources_returned": 5,
+          "timing_ms": 26002.9
+        },
+        {
+          "tool": "get_statement",
+          "arguments": {
+            "label": "Theorem 1",
+            "paper_id": "f6865ff3020bde53"
+          },
+          "sources_returned": 4,
+          "timing_ms": null
+        },
+        {
+          "tool": "search_passages",
+          "arguments": {
+            "query": "Algorithm 2 Wasserstein sphere Gaussian measures sampled",
+            "paper_ids": [
+              "f6865ff3020bde53"
+            ],
+            "candidates": 50,
+            "top_k": 5
+          },
+          "sources_returned": 5,
+          "timing_ms": 26897.6
+        },
+        {
+          "tool": "search_passages",
+          "arguments": {
+            "paper_ids": [
+              "f6865ff3020bde53"
+            ],
+            "query": "Algorithm 2 Sampling Gaussian Measures continued page 31",
+            "candidates": 50,
+            "top_k": 5
+          },
+          "sources_returned": 5,
+          "timing_ms": 27595.7
+        },
+        {
+          "tool": "search_passages",
+          "arguments": {
+            "query": "Algorithm 2 Sampling Gaussian Measures from a Wasserstein Sphere page 30",
+            "paper_ids": [
+              "f6865ff3020bde53"
+            ],
+            "candidates": 50,
+            "top_k": 5
+          },
+          "sources_returned": 5,
+          "timing_ms": 28312
+        }
+      ],
+      "model_calls": 8,
+      "token_usage": [
+        {
+          "promptTokenCount": 895,
+          "candidatesTokenCount": 26,
+          "thoughtsTokenCount": 81,
+          "totalTokenCount": 1002
+        },
+        {
+          "promptTokenCount": 4153,
+          "candidatesTokenCount": 39,
+          "thoughtsTokenCount": 22,
+          "totalTokenCount": 4214
+        },
+        {
+          "promptTokenCount": 5133,
+          "candidatesTokenCount": 24,
+          "thoughtsTokenCount": 43,
+          "totalTokenCount": 5200
+        },
+        {
+          "promptTokenCount": 8204,
+          "candidatesTokenCount": 48,
+          "thoughtsTokenCount": 30,
+          "totalTokenCount": 8282
+        },
+        {
+          "promptTokenCount": 11426,
+          "candidatesTokenCount": 30,
+          "thoughtsTokenCount": 375,
+          "totalTokenCount": 11831
+        },
+        {
+          "promptTokenCount": 14906,
+          "candidatesTokenCount": 1051,
+          "thoughtsTokenCount": 25,
+          "totalTokenCount": 15982
+        },
+        {
+          "promptTokenCount": 16005,
+          "candidatesTokenCount": 369,
+          "thoughtsTokenCount": 433,
+          "totalTokenCount": 16807
+        },
+        {
+          "promptTokenCount": 708,
+          "candidatesTokenCount": 54,
+          "totalTokenCount": 762
+        }
+      ]
+    },
+    "answers": [
+      {
+        "citations": [
+          {
+            "label": "Source · p. 6",
+            "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+          },
+          {
+            "label": "Source · p. 6",
+            "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+          }
+        ],
+        "text": "MATHPAPER\n\nFor all d >= 4, the separation condition in Assumption 1 is satisfied with probability at least 1 - p.\n\nSource · p. 6\n\nThere exists d0 in Z+ such that for all d >= d0 and beta >= max{1, beta0}, the energy functional stores all N = floor(sqrt(p) e^{alpha d}) randomly sampled Gaussian measures with probability at least 1 - p.\n\nSource · p. 6\n3 tool calls · 39.6 s · Support checks are fallible; verify mathematical details against the linked original pages."
+      },
+      {
+        "citations": [],
+        "text": "MATHPAPER\n\nI could not substantiate an answer from the selected papers within the search budget. Try naming a theorem or paper, or inspect the evidence directly.\n\n5 tool calls · 122.1 s · Support checks are fallible; verify mathematical details against the linked original pages."
+      }
+    ]
   },
-  "checked_at_utc": "2026-10-16T01:39:00Z",
-  "service_id": "srv-db8n62vf3r2c73emj59g",
-  "outcome": "blocked_by_google_access_rejection",
-  "generation_succeeded": false,
-  "followup_and_out_of_scope_tests": "Not run because the first model request was rejected before generation.",
-  "deterministic_tests_passed": 26,
-  "notes": [
-    "Only public configuration and safe error details were recorded. No API key or provider error body was inspected or saved.",
-    "The API key is present in runtime configuration; its validity and project permissions have not been established.",
-    "The API access failure does not establish that the project is restricted; the owner must inspect project status in AI Studio."
+  "verified_live_checks": [
+    {
+      "kind": "theorem_answer",
+      "question": "What does Theorem 1 establish in Dense associative memory for Gaussian distributions? Summarize its conclusion in plain language.",
+      "answer": "MATHPAPER\n\nTheorem 1 establishes that dense associative memory networks can successfully store an exponential number of Gaussian distributions in the Bures-Wasserstein space with high probability. In plain language, this means that just as traditional neural memory models can store vast numbers of point patterns, a dense associative memory adapted for Gaussian distributions can store an exponentially large collection of random Gaussian measures while ensuring they remain stable retrieval states.\n\nSource · p. 6\n\nSpecifically, considering a Wasserstein sphere of a given radius centered at a reference Gaussian measure where N Gaussian measures are randomly sampled using Algorithm 2 under the parameters and conditions defined in Assumption 1, Theorem 1 shows that for dimension d >= 4, the separation condition is satisfied with probability at least 1 - p.\n\nTheorem 1 · p. 5\nSource · p. 5\nSource · p. 6\n\nFurthermore, the theorem guarantees that there exists a dimension threshold d0 such that for all dimensions d >= d0 and inverse temperature parameter beta >= max(1, beta0), the energy functional successfully stores all N = floor(sqrt(p) e^(alpha d)) randomly sampled Gaussian measures with a probability of at least 1 - p.\n\nSource · p. 6\n\nAs noted in Remark 1, this result extends the exponential storage capacity findings from Euclidean space to the Bures-Wasserstein geometry of Gaussian distributions.\n\nRemark 1 · p. 6\n2 tool calls · 14.1 s · Support checks are fallible; verify mathematical details against the linked original pages.",
+      "trace": {
+        "steps": [
+          {
+            "tool": "get_statement",
+            "arguments": {
+              "paper_id": "f6865ff3020bde53",
+              "label": "Theorem 1"
+            },
+            "sources_returned": 4,
+            "timing_ms": null
+          },
+          {
+            "tool": "get_context",
+            "arguments": {
+              "source_id": "f6865ff3020bde53:p5:b51"
+            },
+            "sources_returned": 6,
+            "timing_ms": null
+          },
+          {
+            "step": "support_check",
+            "accepted": 4,
+            "withheld": 0
+          }
+        ],
+        "model_calls": 4,
+        "token_usage": [
+          {
+            "promptTokenCount": 671,
+            "candidatesTokenCount": 39,
+            "thoughtsTokenCount": 69,
+            "totalTokenCount": 779
+          },
+          {
+            "promptTokenCount": 1698,
+            "candidatesTokenCount": 38,
+            "thoughtsTokenCount": 75,
+            "totalTokenCount": 1811
+          },
+          {
+            "promptTokenCount": 3146,
+            "candidatesTokenCount": 497,
+            "thoughtsTokenCount": 796,
+            "totalTokenCount": 4439
+          },
+          {
+            "promptTokenCount": 948,
+            "candidatesTokenCount": 37,
+            "totalTokenCount": 985
+          }
+        ]
+      },
+      "citations": [
+        {
+          "label": "Source · p. 6",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+        },
+        {
+          "label": "Theorem 1 · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 6",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+        },
+        {
+          "label": "Source · p. 6",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+        },
+        {
+          "label": "Remark 1 · p. 6",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=6"
+        }
+      ],
+      "evidence": "01PDF page 6Dense associative memory for Gaussian distributions2. There exists d0 ∈Z+ such that for all d ≥d0 and\nβ ≥max{1, β0}, where β0 is defined in Assumption 1,\nthe energy functional in (1) stores all N = ⌊√p eαd⌋\nrandomly sampled Gaussian measures with probability\nat least 1 −p.Open original page ↗02PDF page 5Dense associative memory for Gaussian distributionsTheorem 1Theorem 1. Let 0\n<\np\n<\n1 be a constant, and\nlet λmin, λmax, κ, α be constants as defined in Assumption 1. Consider a Wasserstein sphere SR of radius R =\npOpen original page ↗03PDF page 5Dense associative memory for Gaussian distributions2dλmax(2 + log κ) centered at δ0, and let N = ⌊√p eαd⌋\nGaussian measures be randomly sampled from SR using\nAlgorithm 2. Then:Open original page ↗04PDF page 6Dense associative memory for Gaussian distributions1. For all d ≥4, the separation condition in Assumption 1\nis satisfied with probability at least 1 −p.Open original page ↗05PDF page 6Dense associative memory for Gaussian distributionsRemark 1Remark 1. Theorem 1 extends the exponential storage capacity results of (Ramsauer et al., 2020)[Theorem 3] from\nEuclidean space to the Bures–Wasserstein space. In the Euclidean setting, separation is measured via inner products\n∆i := x⊤Open original page ↗",
+      "tool_calls": 2,
+      "timing_seconds": 14.1,
+      "citation_pages": [
+        5,
+        6
+      ]
+    },
+    {
+      "kind": "contextual_followup",
+      "question": "What sampling setup and assumptions does that theorem rely on? Explain how the Gaussian measures are chosen.",
+      "answer": "MATHPAPER\n\nTheorem 1 relies on Assumption 1 (the separation condition) and a sampling procedure defined in Algorithm 2 for generating random Gaussian measures on a Bures-Wasserstein sphere.\n\nAssumption 1 · p. 5\nTheorem 1 · p. 5\nSource · p. 30\n\nAccording to Algorithm 2, the $N$ Gaussian measures $X_i = \\mathcal{N}(\\mu_i, \\Sigma_i)$ are chosen by sampling a set of $d$ eigenvalues for each covariance matrix $\\Sigma_i$ i.i.d. uniformly from the interval $[\\lambda_{\\min}, \\lambda_{\\max}]$ and obtaining an orthogonal matrix $Q_i$ from the Haar measure via the QR decomposition of a standard normal matrix.\n\nSource · p. 30\n\nThe covariance matrices are constructed as $\\Sigma_i = Q_i \\text{diag}(\\lambda_1^{(i)}, \\dots, \\lambda_d^{(i)}) Q_i^T$, and the mean vectors $\\mu_i$ are sampled such that each resulting Gaussian measure lies precisely on a Wasserstein sphere $S_R$ of radius $R = \\sqrt{2d\\lambda_{\\max}(2 + \\log \\kappa)}$ centered at a reference Gaussian measure $\\delta_0$.\n\nTheorem 1 · p. 5\nSource · p. 5\nSource · p. 30\n\nAssumption 1 defines the spectral bounds $\\lambda_{\\min}$ and $\\lambda_{\\max}$ (with condition number $\\kappa = \\lambda_{\\max}/\\lambda_{\\min}$), specifies a separation condition in terms of the $L^2$-inner product between distinct Gaussian measures, and introduces threshold parameters such as $\\alpha$ and $\\beta_0$ governing the inverse temperature and storage capacity.\n\nAssumption 1 · p. 5\nSource · p. 5\nSource · p. 5\nSource · p. 5\nSource · p. 5\n5 tool calls · 45.5 s · Support checks are fallible; verify mathematical details against the linked original pages.",
+      "trace": {
+        "steps": [
+          {
+            "tool": "get_statement",
+            "arguments": {
+              "label": "Theorem 1",
+              "paper_id": "f6865ff3020bde53"
+            },
+            "sources_returned": 4,
+            "timing_ms": null
+          },
+          {
+            "tool": "get_statement",
+            "arguments": {
+              "paper_id": "f6865ff3020bde53",
+              "label": "Assumption 1"
+            },
+            "sources_returned": 38,
+            "timing_ms": null
+          },
+          {
+            "tool": "search_passages",
+            "arguments": {
+              "query": "Algorithm 2 Gaussian measures Wasserstein sphere",
+              "paper_ids": [
+                "f6865ff3020bde53"
+              ],
+              "candidates": 20,
+              "top_k": 5
+            },
+            "sources_returned": 5,
+            "timing_ms": 13273.9
+          },
+          {
+            "tool": "search_passages",
+            "arguments": {
+              "top_k": 2,
+              "paper_ids": [
+                "f6865ff3020bde53"
+              ],
+              "query": "Algorithm 2 Sampling Gaussian Measures from a Wasserstein Sphere continued",
+              "candidates": 20
+            },
+            "sources_returned": 2,
+            "timing_ms": 10492.7
+          },
+          {
+            "tool": "search_passages",
+            "arguments": {
+              "query": "Algorithm 2 sample mean vector Wasserstein sphere tau_i R",
+              "paper_ids": [
+                "f6865ff3020bde53"
+              ],
+              "top_k": 2,
+              "candidates": 20
+            },
+            "sources_returned": 2,
+            "timing_ms": 10367.3
+          },
+          {
+            "step": "support_check",
+            "accepted": 4,
+            "withheld": 0
+          }
+        ],
+        "model_calls": 7,
+        "token_usage": [
+          {
+            "promptTokenCount": 1436,
+            "candidatesTokenCount": 39,
+            "thoughtsTokenCount": 56,
+            "totalTokenCount": 1531
+          },
+          {
+            "promptTokenCount": 2450,
+            "candidatesTokenCount": 39,
+            "thoughtsTokenCount": 19,
+            "totalTokenCount": 2508
+          },
+          {
+            "promptTokenCount": 9239,
+            "candidatesTokenCount": 23,
+            "thoughtsTokenCount": 19,
+            "totalTokenCount": 9281
+          },
+          {
+            "promptTokenCount": 11732,
+            "candidatesTokenCount": 54,
+            "thoughtsTokenCount": 29,
+            "totalTokenCount": 11815
+          },
+          {
+            "promptTokenCount": 13176,
+            "candidatesTokenCount": 55,
+            "thoughtsTokenCount": 63,
+            "totalTokenCount": 13294
+          },
+          {
+            "promptTokenCount": 14511,
+            "candidatesTokenCount": 741,
+            "thoughtsTokenCount": 385,
+            "totalTokenCount": 15637
+          },
+          {
+            "promptTokenCount": 2015,
+            "candidatesTokenCount": 102,
+            "totalTokenCount": 2117
+          }
+        ]
+      },
+      "citations": [
+        {
+          "label": "Assumption 1 · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Theorem 1 · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 30",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=30"
+        },
+        {
+          "label": "Source · p. 30",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=30"
+        },
+        {
+          "label": "Theorem 1 · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 30",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=30"
+        },
+        {
+          "label": "Assumption 1 · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        },
+        {
+          "label": "Source · p. 5",
+          "url": "/api/papers/f6865ff3020bde53/pdf#page=5"
+        }
+      ],
+      "evidence": "01PDF page 5Dense associative memory for Gaussian distributionsAssumption 1Assumption 1 (Separation condition). Let Xi = N(µi, Σi),\nfor i ∈[N], be d-dimensional Gaussian measures and\nsuppose the eigenvalues of Σi lie in the bounded intervalOpen original page ↗02PDF page 5Dense associative memory for Gaussian distributionsTheorem 1Theorem 1. Let 0\n<\np\n<\n1 be a constant, and\nlet λmin, λmax, κ, α be constants as defined in Assumption 1. Consider a Wasserstein sphere SR of radius R =\npOpen original page ↗03PDF page 30Dense associative memory for Gaussian distributionsAlgorithm 2 Sampling Gaussian Measures from a Wasserstein Sphere\n\nRequire: Dimension d, spectral bounds 0 < λmin ≤λmax < ∞, number of samples N\nEnsure: Set of Gaussian measures {Xi = N(µi, Σi)}N\n\ni=1 on a Wasserstein sphere of radius R centered at δ0\n1: for i = 1, . . . , N do\n\ni.i.d.\n∼Uniform([λmin, λmax])\n\n2:\nSample eigenvalues: Generate λ(i)\n\n1 , . . . , λ(i)\nd\n\nk=1 λ(i)\n\n3:\nCompute trace τi ←Pd\n\nk\n4:\nSample orthogonal matrix from the Haar measure:\n\n5:\nGenerate Z ∈Rd×d with entries Zjk\n\ni.i.d.\n∼N(0, 1)\n6:\nCompute QR decomposition of Z, i.e., Z = QR\n7:\nQi ←Q · diag(sign(R11), . . . , sign(Rdd))Open original page ↗04PDF page 5Dense associative memory for Gaussian distributions2dλmax(2 + log κ) centered at δ0, and let N = ⌊√p eαd⌋\nGaussian measures be randomly sampled from SR using\nAlgorithm 2. Then:Open original page ↗05PDF page 5Dense associative memory for Gaussian distributions[λmin, λmax]. Define κ := λmax/λmin. Suppose β is the\ninverse temperature parameter from the definition of the energy functional in (1). Let 0 < p < 1 be a constant. Further,\ndefineOpen original page ↗06PDF page 5Dense associative memory for Gaussian distributions2(2 + log κ)λmax , α :=\n(1 + log κ)2Open original page ↗07PDF page 5Dense associative memory for Gaussian distributionsi=1\nsatisfy\nthe\nfollowing\nseparation\nin\nL2-inner\nproduct:\nmini̸=j(−log⟨Xi, Xj⟩L2) ≥dOpen original page ↗08PDF page 5Dense associative memory for Gaussian distributions2 log(4πλmax) + d .Open original page ↗",
+      "tool_calls": 5,
+      "timing_seconds": 45.5,
+      "citation_pages": [
+        5,
+        30
+      ]
+    },
+    {
+      "kind": "out_of_scope",
+      "question": "What is the capital of France?",
+      "answer": "MATHPAPER\n\nI could not substantiate an answer from the selected papers within the search budget. Try naming a theorem or paper, or inspect the evidence directly.\n\n0 tool calls · 1.4 s · Support checks are fallible; verify mathematical details against the linked original pages.",
+      "trace": {
+        "steps": [
+          {
+            "step": "support_check",
+            "accepted": 0,
+            "withheld": 0
+          }
+        ],
+        "model_calls": 1,
+        "token_usage": [
+          {
+            "promptTokenCount": 2621,
+            "candidatesTokenCount": 9,
+            "thoughtsTokenCount": 178,
+            "totalTokenCount": 2808
+          }
+        ]
+      },
+      "citations": [],
+      "evidence": "",
+      "tool_calls": 0,
+      "timing_seconds": 1.4,
+      "citation_pages": []
+    }
+  ],
+  "limits": [
+    "These are three development smoke cases, not a held-out benchmark or an answer-accuracy estimate.",
+    "The separate support check uses the same model and does not certify mathematical correctness.",
+    "PDF text can scramble equations, and generated formulas can appear as raw LaTeX. Original pages remain authoritative.",
+    "The initial Google HTTP 403 rejection later cleared without further changes to the key. The exact cause was not established.",
+    "No credential values or provider error bodies were inspected, logged, or saved.",
+    "Timings are individual warm-service observations on Render Free, not latency percentiles or a service guarantee."
   ]
 }
