@@ -1,0 +1,41 @@
+{
+  "site": "https://mathpaper-chandan-tankala.onrender.com",
+  "checks": [
+    {
+      "question": "What does Theorem 1 establish in Dense associative memory for Gaussian distributions? Summarize its conclusion in plain language.",
+      "http_status": 503,
+      "elapsed_seconds": 11.09,
+      "response": {
+        "detail": "The answering service did not accept its configuration. The site owner needs to check the API key and project access."
+      }
+    },
+    {
+      "question": "What does Theorem 1 establish in Dense associative memory for Gaussian distributions? Summarize its conclusion in plain language.",
+      "http_status": 503,
+      "elapsed_seconds": 16.51,
+      "response": {
+        "detail": "The answering service did not accept its configuration (HTTP 403; PERMISSION_DENIED). The site owner needs to check the API key and project access."
+      },
+      "commit": "db2bc275bc7af24d08078f4114489663df8c3666"
+    }
+  ],
+  "status": {
+    "chat_configured": true,
+    "chat_model": "gemini-3.5-flash-lite",
+    "answer_provider": "gemini",
+    "chat_daily_limit": 20,
+    "passages": 404,
+    "public_demo": true
+  },
+  "checked_at_utc": "2026-10-16T01:39:00Z",
+  "service_id": "srv-db8n62vf3r2c73emj59g",
+  "outcome": "blocked_by_google_access_rejection",
+  "generation_succeeded": false,
+  "followup_and_out_of_scope_tests": "Not run because the first model request was rejected before generation.",
+  "deterministic_tests_passed": 26,
+  "notes": [
+    "Only public configuration and safe error details were recorded. No API key or provider error body was inspected or saved.",
+    "The API key is present in runtime configuration; its validity and project permissions have not been established.",
+    "The API access failure does not establish that the project is restricted; the owner must inspect project status in AI Studio."
+  ]
+}

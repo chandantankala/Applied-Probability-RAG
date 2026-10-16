@@ -6,7 +6,7 @@ This checkout includes the author's three approved source PDFs. The derived data
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
 
-**Ready now:** searching the papers and opening the source PDF pages. A native Gemini adapter is prepared for **Gemini 3.5 Flash-Lite**, currently offered with free input/output tokens on eligible free-tier projects. **One secure setup step remains for generated answers:** add the owner's API key in Render. No paid model account has been enabled and no live generative model has been called.
+**Ready now:** searching the papers and opening the source PDF pages. A native Gemini adapter is prepared for **Gemini 3.5 Flash-Lite**, currently offered with free input/output tokens on eligible free-tier projects. **Current connection state:** the owner has added the key privately in Render, but Google rejects live requests with HTTP 403 (`PERMISSION_DENIED`). Generated answers are not operational until that access issue is resolved. No paid model account has been enabled.
 
 For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The live Render service uses its **free** plan, smaller INT8 versions of both MiniLM models, and public evidence search with uploads and generated answers disabled.
 
@@ -139,7 +139,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 ## What has been checked
 
 - Real CPU embedding and cross-encoder inference on all 404 passages and the starter questions.
-- Twenty-five deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
+- Twenty-six deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
 - HTTP endpoints and original-PDF byte hashes.
 - Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
@@ -147,7 +147,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 - The container entry point, configurable public port, readiness, real retrieval, internal MCP routing, and graceful shutdown. The first Render Docker image built successfully, and the free service passed live health, corpus, original-PDF fingerprint, and published-version statement checks. See `evaluation/cloud_validation.json`.
 - The INT8 profile on the same ten development seed questions at N=20 and N=50, along with local memory measurements. These checks are recorded separately in `evaluation/free_tier_results.json` and do not establish performance on the actual free cloud instance.
 
-No live generative model has been called, so mathematical answer quality, model tool-use reliability, end-to-end chat latency, and hallucination rates remain unmeasured.
+Live Gemini requests currently return HTTP 403 (`PERMISSION_DENIED`), before generation. No successful generative answer has been produced; mathematical answer quality, model tool-use reliability, end-to-end chat latency, and hallucination rates remain unmeasured. See `evaluation/chat_connection_validation.json` for the observed connection failure.
 
 The ten development questions in `evaluation/questions.json` are a starting smoke set, with labels updated for the included proceedings PDF. Current page-hit counts and measured timings are in [evaluation/RESULTS.md](evaluation/RESULTS.md). They are **not** a held-out benchmark or answer-accuracy result. The separation-condition question still requires a follow-up statement lookup when its definition is missing from the top five passages.
 
