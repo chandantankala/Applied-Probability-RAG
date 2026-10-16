@@ -71,7 +71,7 @@ class ChatModel:
         except ValueError as error:
             raise ChatServiceError("The answering service returned an unreadable response. Please try again.") from error
 
-    async def complete(self, messages: list[dict], tools=None, json_output=False) -> dict:
+    async def complete(self, messages: list[dict], tools=None, json_output=False, response_schema=None) -> dict:
         if not self.model:
             raise ChatServiceError("Choose a chat model and set MATHPAPER_CHAT_MODEL. Evidence search works without a chat model.")
         limit = min(12, max(2, int(os.getenv("MATHPAPER_MAX_MODEL_CALLS", "10"))))
@@ -79,7 +79,7 @@ class ChatModel:
             raise ChatServiceError("This question reached the demo's model-call budget. Try a more specific question or use Find evidence.")
         self.calls += 1
         if self.provider == "gemini":
-            return await self._gemini(messages, tools, json_output)
+            return await self._gemini(messages, tools, json_output, response_schema)
         payload = {"model": self.model, "messages": messages, "stream": False}
         headers = {}
         if tools:
@@ -123,7 +123,7 @@ class ChatModel:
         except (KeyError, TypeError, IndexError) as error:
             raise ChatServiceError("The answering service returned an incomplete response. Please try again.") from error
 
-    async def _gemini(self, messages: list[dict], tools, json_output: bool) -> dict:
+    async def _gemini(self, messages: list[dict], tools, json_output: bool, response_schema=None) -> dict:
         if not self.key:
             raise ChatServiceError("The site owner still needs to connect the answering model's API key. Find evidence is ready to use.")
         # Keep keys on the documented Google host; never put them in URLs or browser JavaScript.
@@ -158,11 +158,13 @@ class ChatModel:
         payload = {"contents": contents, "systemInstruction": {"parts": system}, "generationConfig": {"maxOutputTokens": 4096}}
         # Gemini 3.5 removed sampling controls. Medium thinking supports multi-step tools.
         if self.model.startswith("gemini-3"):
-            payload["generationConfig"]["thinkingConfig"] = {"thinkingLevel": "minimal" if json_output else "medium"}
+            payload["generationConfig"]["thinkingConfig"] = {"thinkingLevel": "medium" if tools or not json_output else "minimal"}
         if tools:
             payload["tools"] = [{"functionDeclarations": [{"name": t["function"]["name"], "description": t["function"].get("description", ""), "parametersJsonSchema": t["function"]["parameters"]} for t in tools]}]
-        elif json_output:
+        if json_output:
             payload["generationConfig"]["responseMimeType"] = "application/json"
+            if response_schema is not None:
+                payload["generationConfig"]["responseJsonSchema"] = response_schema
         body = await self._post(self.base+"/models/"+self.model+":generateContent", payload, {"x-goog-api-key": self.key})
         try:
             candidate = body["candidates"][0]

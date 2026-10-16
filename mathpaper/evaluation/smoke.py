@@ -40,7 +40,7 @@ class ScriptedModel:
         if self.step == 1:
             # Deliberately request a paper outside the selected corpus. The
             # controller must replace this filter before sending the MCP call.
-            calls = [("search_passages", {"query": "What assumptions are imposed in Theorem 10 for pairwise interaction energy?", "paper_ids": [GAUSSIAN], "candidates": 20, "top_k": 3})]
+            calls = [("search_passages", {"query": "What assumptions are imposed in Theorem 10 for pairwise interaction energy?", "paper_ids": [GAUSSIAN], "candidates": 50, "top_k": 3})]
         elif self.step == 2 and not self.invent:
             calls = [("get_statement", {"paper_id": MEAN_FIELD, "label": f"Assumption {n}"}) for n in (4, 5, 6)]
         else:
@@ -94,6 +94,7 @@ async def main():
         assert not result["abstained"] and result["tool_calls"] == 4 and good.checker_calls == 1
         assert {s["paper_id"] for s in result["sources"]} == {MEAN_FIELD}
         assert result["trace"][0]["arguments"]["paper_ids"] == [MEAN_FIELD]
+        assert result["trace"][0]["arguments"]["candidates"] == 20
         bad = ScriptedModel(invent_citation=True)
         with patch("mathpaper.agent.ChatModel", return_value=bad):
             result = await run_agent("What assumptions does Theorem 10 use?", "bad-test", [MEAN_FIELD], root)

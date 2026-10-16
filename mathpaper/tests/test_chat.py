@@ -11,6 +11,7 @@ import httpx
 from fastapi.testclient import TestClient
 
 from mathpaper.app import app
+from mathpaper.agent import CLAIMS_SCHEMA, VERDICTS_SCHEMA
 from mathpaper.limits import ChatLimitError, PublicChatGuard
 from mathpaper.llm import ChatModel, ChatServiceError, access_error_code
 
@@ -78,12 +79,25 @@ class GeminiProtocolTests(unittest.TestCase):
         def handler(request):
             payload = json.loads(request.content)
             self.assertEqual(payload["generationConfig"]["responseMimeType"], "application/json")
+            self.assertEqual(payload["generationConfig"]["responseJsonSchema"], VERDICTS_SCHEMA)
             self.assertNotIn("temperature", payload["generationConfig"])
             self.assertNotIn("tools", payload)
             return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"text": '{"verdicts":[]}'}]}, "finishReason": "STOP"}]})
         with patch.dict(os.environ, GEMINI), patch("mathpaper.llm.httpx.AsyncClient", side_effect=self.client_factory(handler)):
-            result = asyncio.run(ChatModel().complete([{"role": "user", "content": "Check claims"}], json_output=True))
+            result = asyncio.run(ChatModel().complete([{"role": "user", "content": "Check claims"}], json_output=True, response_schema=VERDICTS_SCHEMA))
         self.assertEqual(json.loads(result["content"]), {"verdicts": []})
+
+    def test_structured_answer_schema_can_accompany_tool_calls(self):
+        def handler(request):
+            payload = json.loads(request.content)
+            self.assertTrue(payload["tools"][0]["functionDeclarations"])
+            self.assertEqual(payload["generationConfig"]["responseMimeType"], "application/json")
+            self.assertEqual(payload["generationConfig"]["responseJsonSchema"], CLAIMS_SCHEMA)
+            self.assertEqual(payload["generationConfig"]["thinkingConfig"]["thinkingLevel"], "medium")
+            return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"functionCall": {"name": "search_passages", "id": "lookup", "args": {}}}]}, "finishReason": "STOP"}]})
+        with patch.dict(os.environ, GEMINI), patch("mathpaper.llm.httpx.AsyncClient", side_effect=self.client_factory(handler)):
+            result = asyncio.run(ChatModel().complete([{"role": "user", "content": "Look up a paper"}], tools=TOOLS, json_output=True, response_schema=CLAIMS_SCHEMA))
+        self.assertEqual(result["tool_calls"][0]["id"], "lookup")
 
     def test_key_is_required_and_sent_only_to_the_google_api(self):
         with patch.dict(os.environ, {**GEMINI, "MATHPAPER_API_KEY": ""}):
