@@ -21,9 +21,8 @@
   "retrieval": "Real ONNX CPU inference; 10-question authoring-time page-hit smoke comparison in RESULTS.md.",
   "not_verified": [
     "Live generative model quality or costs",
-    "Full browser visual/interaction testing",
-    "Docker image build (no local daemon available)",
-    "Remote deployment: Render account is not connected; the free cloud instance has not been created."
+    "Mobile layout, comprehensive browser and accessibility coverage",
+    "Peak cloud memory and sustained-load latency"
   ],
   "deployment_entry_point": "Public port binding, health, public-mode upload/chat restrictions, real reranked retrieval, internal MCP routing, and graceful shutdown passed.",
   "free_plan": {
@@ -33,7 +32,7 @@
       "N20": 9,
       "N50": 9
     },
-    "cloud_deployment_verified": false
+    "cloud_deployment_verified": true
   },
   "checked_at_utc": "2026-10-16T00:25:03.895074+00:00",
   "corpus": {
@@ -46,5 +45,6 @@
       "1a24af6ab83d882c": "1a24af6ab83d882ce5b0146c44aac5df9e902e2b90e055278fa6656008efe6cc"
     }
   },
-  "model_precision": "int8"
+  "model_precision": "int8",
+  "cloud_validation_file": "cloud_validation.json"
 }

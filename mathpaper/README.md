@@ -1,12 +1,14 @@
 # MathPaper
 
+**Live demo:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Evidence search is public; generated answers are disabled until an answering model is connected. Free hosting can take about a minute to wake after inactivity.
+
 This checkout includes the author's three approved source PDFs. The derived database, vectors, model weights, and secrets are excluded from Git. The Docker build verifies the PDF fingerprints and rebuilds the corpus; publishing this source alone does not deploy a website.
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
 
 **Ready now:** searching the papers and opening the source PDF pages. **One configuration step remains for generated answers:** connect a tool-calling chat LLM. No generative model or paid API account has been selected or used in preparing this project.
 
-For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The Render configuration selects its **free** plan; the container uses smaller INT8 versions of both MiniLM models and defaults to public evidence search with uploads and generated answers disabled. Hosting has not yet been provisioned.
+For website hosting, see [DEPLOYMENT.md](DEPLOYMENT.md). The live Render service uses its **free** plan, smaller INT8 versions of both MiniLM models, and public evidence search with uploads and generated answers disabled.
 
 ## Start with evidence search
 
@@ -118,8 +120,8 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 - HTTP endpoints and original-PDF byte hashes.
 - Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
-- JavaScript syntax and Python compilation. Full visual browser testing has not been performed.
-- The container entry point, configurable public port, readiness, real retrieval, internal MCP routing, and graceful shutdown. A Docker image build and remote deployment have not yet been performed.
+- JavaScript syntax and Python compilation. A live browser query returned five source passages with original-page links; mobile layout and comprehensive browser/accessibility coverage remain untested.
+- The container entry point, configurable public port, readiness, real retrieval, internal MCP routing, and graceful shutdown. The first Render Docker image built successfully, and the free service passed live health, corpus, original-PDF fingerprint, and published-version statement checks. See `evaluation/cloud_validation.json`.
 - The INT8 profile on the same ten development seed questions at N=20 and N=50, along with local memory measurements. These checks are recorded separately in `evaluation/free_tier_results.json` and do not establish performance on the actual free cloud instance.
 
 No live generative model has been called, so mathematical answer quality, model tool-use reliability, end-to-end chat latency, and hallucination rates remain unmeasured.

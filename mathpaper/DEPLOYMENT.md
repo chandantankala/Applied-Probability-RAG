@@ -4,7 +4,7 @@ The application is under `mathpaper/`, and the root `render.yaml` points to that
 
 This setup runs the existing FastAPI interface and Python retrieval pipeline together in one container. The MCP service stays internal on loopback; the website is exposed on the platform's `PORT`. Model files and the vector index are built into the image, so normal web requests do not download weights or rebuild the corpus.
 
-**Prepared, not deployed.** The container entry point, health checks, public-demo restrictions, real MiniLM search, internal MCP routing, and graceful service shutdown passed local checks. A Docker daemon is unavailable in this workspace, so the Docker image itself has not been built here. The chosen host's first build remains a required deployment check. No hosting account or paid resources have been created.
+**Live on Render Free:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Render built the Docker image and started the single free service successfully. Live checks passed readiness, corpus metadata, all three original-PDF fingerprints, and published-version statement lookup; a browser query returned five reranked passages. `evaluation/cloud_validation.json` records the initial deployment checks. Generated answers remain disabled until a model is connected. No paid resources were created.
 
 ## Public demo defaults
 
@@ -46,7 +46,9 @@ The local sum of individual peak RSS was **399.2 MiB** for the API, MCP service,
 3. Confirm the build succeeds, health checks pass, paper links open, and a real hybrid-reranked query completes. Inspect peak memory and latency before settling on an instance size.
 4. Use the returned HTTPS URL for the live demo. A custom domain is optional.
 
-The frontend and Python backend share this one free web service. A custom domain and separate database are unnecessary. Normal requests are handled live; answers or retrieval results are not precomputed. The first Docker build and actual free cloud deployment still need to pass.
+The frontend and Python backend share this one free web service. A custom domain and separate database are unnecessary. Normal requests are handled live; answers or retrieval results are not precomputed. The initial Docker build and free deployment passed; peak cloud memory and sustained-load latency remain unmeasured.
+
+The current service was created from the public repository URL. To publish later changes, open the service in Render and choose **Manual Deploy → Deploy latest commit** for `mathpaper-free-web-demo`. Source changes in GitHub alone do not prove a new version is live.
 
 ### Manual web-service settings
 

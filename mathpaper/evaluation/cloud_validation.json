@@ -1,0 +1,47 @@
+{
+  "health": {
+    "status": "ready"
+  },
+  "corpus": {
+    "pages": 78,
+    "passages": 404,
+    "model_precision": "int8",
+    "default_candidates": 20,
+    "max_candidates": 50,
+    "can_upload": false,
+    "chat_configured": false
+  },
+  "pdfs": [
+    {
+      "id": "391b111dc9c0fe55",
+      "sha256": "391b111dc9c0fe555763e5747e7e8d27c46a9a264f2c5fabd53e735614da47d3",
+      "bytes": 471221
+    },
+    {
+      "id": "f6865ff3020bde53",
+      "sha256": "f6865ff3020bde531169c5954cfc49a8af1384dabc0815f1a7c5160806e018f6",
+      "bytes": 5549072
+    },
+    {
+      "id": "1a24af6ab83d882c",
+      "sha256": "1a24af6ab83d882ce5b0146c44aac5df9e902e2b90e055278fa6656008efe6cc",
+      "bytes": 285331
+    }
+  ],
+  "published_theorem_pages": [
+    5,
+    6
+  ],
+  "unconfigured_public_chat_status": 403,
+  "checked_at_utc": "2026-10-16T00:48:25.711133+00:00",
+  "url": "https://mathpaper-chandan-tankala.onrender.com/",
+  "render_service_id": "srv-db8n62vf3r2c73emj59g",
+  "deployed_commit": "f3c79a65014e77ac354c7b9a0c01d3bd1d623a67",
+  "plan": "free",
+  "browser_query": {
+    "question": "What is the mixing time and cutoff window of the randomized shift-register Markov chain?",
+    "sources": 5,
+    "reranked_candidates": 20,
+    "reported_timing_ms": 13023.9
+  }
+}
