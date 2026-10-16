@@ -4,6 +4,8 @@
 
 **Experiment notebook:** [/evaluation](https://mathpaper-chandan-tankala.onrender.com/evaluation) presents the recorded four-method comparison, the 20-versus-50 candidate experiment, an audit of all ten questions with original PDF links, and the three live agent smoke cases. Its downloadable snapshot is rebuilt from recorded inputs; these development checks measure evidence-page hits rather than answer accuracy. Tuning covers retrieval configuration; model weights are unchanged.
 
+Interactive charts include a zero-based method-comparison bar chart, a shared-bin histogram of all 20 candidate-budget timing observations, and a 40-cell question-by-method grid linked to the source-page explorer. Histogram counts have an accessible table, and chart controls support keyboard selection. Interface copy addresses visitors to the public paper collection.
+
 This checkout includes the author's three approved source PDFs. The derived database, vectors, model weights, and secrets are excluded from Git. The Docker build verifies the PDF fingerprints and rebuilds the corpus; publishing this source alone does not deploy a website.
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
@@ -157,6 +159,7 @@ Run the deterministic tests:
 
 ```bash
 python -m unittest discover -s tests -v
+node --test tests/evaluation_charts.test.mjs
 ```
 
 With the two normal servers stopped, run the integration check; it starts and stops its own services:

@@ -4,22 +4,22 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>MathPaper — Research with sources</title>
   <meta name="description" content="Search mathematics papers and trace answers to the original pages.">
-  <link rel="stylesheet" href="/assets/style.css?v=evaluation-1">
+  <link rel="stylesheet" href="/assets/style.css?v=public-charts-1">
 </head>
 <body>
 <div class="app-shell">
   <aside class="sidebar" aria-label="Paper collection">
     <a class="brand" href="/" aria-label="MathPaper home"><span class="brand-symbol">∑</span><span>MathPaper<span class="brand-dot">.</span></span></a>
-    <div class="workspace"><span class="avatar">CT</span><div><strong>Research workspace</strong><small>Chandan Tankala</small></div></div>
-    <div class="collection-heading"><h2>Your collection</h2><span id="paper-count" class="counter">0</span></div>
+    <div class="workspace"><span class="avatar">CT</span><div><strong>Research assistant</strong><small>By Chandan Tankala</small></div></div>
+    <div class="collection-heading"><h2>Research papers</h2><span id="paper-count" class="counter">0</span></div>
     <p class="sidebar-hint">Choose which papers to explore.</p>
-    <div id="papers" class="papers"><p class="muted">Loading your papers…</p></div>
-    <label class="upload" for="pdf-upload"><span>＋</span> Add a paper<input id="pdf-upload" type="file" accept="application/pdf" hidden></label>
-    <div class="sidebar-bottom"><span class="status-dot"></span><span id="corpus-status">Connecting to your collection</span></div>
+    <div id="papers" class="papers"><p class="muted">Loading the papers…</p></div>
+    <label class="upload" for="pdf-upload" hidden><span>＋</span> Add a paper<input id="pdf-upload" type="file" accept="application/pdf" hidden></label>
+    <div class="sidebar-bottom"><span class="status-dot"></span><span id="corpus-status">Connecting to the collection</span></div>
     <a class="project-link" href="https://github.com/chandantankala/Applied-Probability-RAG/tree/mathpaper-free-web-demo" target="_blank" rel="noopener">Project on GitHub ↗</a>
   </aside>
   <main>
-    <header class="topbar"><div><span class="eyebrow">MATHEMATICS RESEARCH</span><span class="topbar-title">A conversation with your papers</span></div><nav class="chat-nav" aria-label="Main navigation"><a href="/" aria-current="page">Chat</a><a href="/evaluation">Evaluation ↗</a><button class="quiet-button" id="new-chat">＋ New conversation</button></nav></header>
+    <header class="topbar"><div><span class="eyebrow">MATHEMATICS RESEARCH</span><span class="topbar-title">Explore the research, follow the sources</span></div><nav class="chat-nav" aria-label="Main navigation"><a href="/" aria-current="page">Chat</a><a href="/evaluation">Evaluation ↗</a><button class="quiet-button" id="new-chat">＋ New conversation</button></nav></header>
     <section id="connection-notice" class="connection-notice" hidden></section>
     <div class="main-grid">
       <section class="conversation" aria-label="Research conversation">
@@ -35,10 +35,10 @@
           </div>
         </div>
         <div id="messages" class="messages" aria-live="polite"></div>
-        <div id="busy" class="busy" hidden><span class="spinner"></span><span id="busy-label">Searching your papers…</span></div>
+        <div id="busy" class="busy" hidden><span class="spinner"></span><span id="busy-label">Searching the papers…</span></div>
         <form id="composer" class="composer">
           <div class="mode-tabs" role="group" aria-label="Interaction mode"><button type="button" class="mode active" data-mode="search">Find evidence</button><button type="button" class="mode" id="agent-mode" data-mode="chat" disabled title="Checking answer availability">Ask the agent</button></div>
-          <label class="sr-only" for="question">Your research question</label>
+          <label class="sr-only" for="question">Research question</label>
           <textarea id="question" placeholder="Ask about a theorem, method, or assumption…" rows="2" maxlength="4000" required></textarea>
           <div class="composer-footer"><span id="mode-caption">Hybrid retrieval · MiniLM reranking</span><button id="send" type="submit" aria-label="Submit question">↑</button></div>
         </form>
@@ -56,6 +56,6 @@
   </main>
 </div>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="/assets/app.js" defer></script>
+<script src="/assets/app.js?v=public-charts-1" defer></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ function selectedPapers() { return [...document.querySelectorAll('.paper-option 
 function chooseMode(mode) {
   interaction=mode;
   document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
-  $('mode-caption').textContent=mode==='chat'?'Cited answers · Checked against your papers':'Hybrid retrieval · MiniLM reranking';
+  $('mode-caption').textContent=mode==='chat'?'Cited answers · Checked against source passages':'Hybrid retrieval · MiniLM reranking';
 }
 async function refresh() {
   state = await api('/api/status');
@@ -25,7 +25,7 @@ async function refresh() {
     const label=element('label','paper-option');
     const checkbox=document.createElement('input'); checkbox.type='checkbox'; checkbox.value=p.id; checkbox.checked=first||before.has(p.id);
     const detail=element('div'); detail.append(element('strong','',p.title),element('small','',`${p.pages} PDF pages · ${p.chunks} passages`));
-    if(p.notes.toLowerCase().includes('review draft')) detail.append(element('small','paper-note','Uploaded review draft'));
+    if(p.notes.toLowerCase().includes('review draft')) detail.append(element('small','paper-note','Included review draft'));
     label.append(checkbox,detail);
     const link=element('a','paper-link','Open paper ↗');
     link.href=`/api/papers/${encodeURIComponent(p.id)}/pdf`;link.target='_blank';link.rel='noopener';
@@ -91,7 +91,7 @@ $('composer').addEventListener('submit',async event=>{
     if(interaction==='search') {
       const result=await api('/api/search',{question,paper_ids,candidates:Number($('candidates').value),top_k:Number($('top-k').value),mode:$('retrieval-mode').value,max_length:512});
       showSources(result.sources);
-      const message=addMessage('assistant',result.sources.length?`Ranked ${result.sources.length} passages for your question. These are search results; they may not contain an answer. Inspect the evidence cards and original pages.`:'No passages were found for the selected papers. Try different wording.');
+      const message=addMessage('assistant',result.sources.length?`Ranked ${result.sources.length} passages for this question. These are search results; they may not contain an answer. Inspect the evidence cards and original pages.`:'No passages were found for the selected papers. Try different wording.');
       message.append(element('small','',`${result.mode} · ${result.timing_ms} ms · ${result.candidates_scored} pairs reranked`));
       $('trace').textContent=JSON.stringify({mode:result.mode,candidates_scored:result.candidates_scored,timing_ms:result.timing_ms,score_note:result.score_note},null,2);
     } else {
