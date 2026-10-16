@@ -15,6 +15,28 @@ class ChatServiceError(ValueError):
     """A message safe to display without reflecting provider bodies or request headers."""
 
 
+def access_error_code(response: httpx.Response) -> str:
+    """Extract only known machine codes; provider messages/metadata may contain secrets."""
+    allowed = {"API_KEY_INVALID", "API_KEY_EXPIRED", "API_KEY_NOT_FOUND", "API_KEY_SERVICE_BLOCKED", "API_KEY_HTTP_REFERRER_BLOCKED", "API_KEY_IP_ADDRESS_BLOCKED", "API_KEY_ANDROID_APP_BLOCKED", "API_KEY_IOS_APP_BLOCKED", "SERVICE_DISABLED", "BILLING_DISABLED", "CONSUMER_INVALID", "IAM_PERMISSION_DENIED", "ACCESS_TOKEN_TYPE_UNSUPPORTED", "AUTH_API_KEY_NOT_ALLOWED"}
+    try:
+        error = response.json().get("error", {})
+        if not isinstance(error, dict):
+            return ""
+        for detail in error.get("details", []):
+            if isinstance(detail, dict) and detail.get("reason") in allowed:
+                return detail["reason"]
+        # Some key errors are delivered only as text. Recognize fixed phrases,
+        # while returning a fixed code rather than any part of that text.
+        message = str(error.get("message", "")).casefold()
+        for marker, code in [("reported as leaked", "API_KEY_REPORTED_LEAKED"), ("api key not valid", "API_KEY_INVALID"), ("unregistered callers", "API_KEY_MISSING"), ("api keys are not supported", "API_KEY_NOT_SUPPORTED"), ("user location is not supported", "LOCATION_UNSUPPORTED"), ("unrestricted api keys", "API_KEY_UNRESTRICTED")]:
+            if marker in message:
+                return code
+        status = error.get("status")
+        return status if status in {"PERMISSION_DENIED", "UNAUTHENTICATED", "INVALID_ARGUMENT", "FAILED_PRECONDITION"} else ""
+    except (ValueError, TypeError, AttributeError):
+        return ""
+
+
 class ChatModel:
     def __init__(self):
         self.provider = os.getenv("MATHPAPER_LLM_PROVIDER", "ollama")
@@ -39,7 +61,9 @@ class ChatModel:
         if response.status_code == 429:
             raise ChatServiceError("The answering model's free quota is temporarily exhausted. Try again later or use Find evidence.")
         if response.status_code in {401, 403}:
-            raise ChatServiceError("The answering service did not accept its configuration. The site owner needs to check the API key and project access.")
+            code = access_error_code(response)
+            diagnostic = f"HTTP {response.status_code}" + (f"; {code}" if code else "")
+            raise ChatServiceError(f"The answering service did not accept its configuration ({diagnostic}). The site owner needs to check the API key and project access.")
         if not response.is_success:
             raise ChatServiceError(f"The answering service is unavailable (HTTP {response.status_code}). Please try again later or use Find evidence.")
         try:

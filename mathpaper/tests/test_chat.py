@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 
 from mathpaper.app import app
 from mathpaper.limits import ChatLimitError, PublicChatGuard
-from mathpaper.llm import ChatModel, ChatServiceError
+from mathpaper.llm import ChatModel, ChatServiceError, access_error_code
 
 GEMINI = {"MATHPAPER_LLM_PROVIDER": "gemini", "MATHPAPER_CHAT_MODEL": "gemini-3.5-flash-lite", "MATHPAPER_LLM_URL": "https://generativelanguage.googleapis.com/v1beta", "MATHPAPER_API_KEY": "fixture-not-a-real-key"}
 TOOLS = [{"type": "function", "function": {"name": "search_passages", "description": "Find evidence", "parameters": {"type": "object", "properties": {"paper_ids": {"anyOf": [{"type": "array", "items": {"type": "string"}}, {"type": "null"}]}}, "required": []}}}]
@@ -22,6 +22,20 @@ class GeminiProtocolTests(unittest.TestCase):
     def client_factory(self, handler):
         client_class = httpx.AsyncClient
         return lambda **kwargs: client_class(transport=httpx.MockTransport(handler), **kwargs)
+
+    def test_access_diagnostic_exposes_only_known_codes_and_never_provider_text(self):
+        secret = "private-credential-fixture"
+        response = httpx.Response(403, json={"error": {"status": "PERMISSION_DENIED", "message": "credential="+secret, "details": [{"reason": "API_KEY_SERVICE_BLOCKED", "metadata": {"apiKey": secret}}]}})
+        self.assertEqual(access_error_code(response), "API_KEY_SERVICE_BLOCKED")
+        hostile = httpx.Response(403, json={"error": {"status": secret, "message": secret, "details": [{"reason": secret}]}})
+        self.assertEqual(access_error_code(hostile), "")
+        self.assertEqual(access_error_code(httpx.Response(403, text="blocked "+secret)), "")
+        def handler(request):
+            return response
+        with patch.dict(os.environ, GEMINI), patch("mathpaper.llm.httpx.AsyncClient", side_effect=self.client_factory(handler)):
+            with self.assertRaisesRegex(ChatServiceError, "HTTP 403; API_KEY_SERVICE_BLOCKED") as caught:
+                asyncio.run(ChatModel().complete([]))
+        self.assertNotIn(secret, str(caught.exception))
 
     def test_parallel_tools_preserve_signatures_order_ids_and_nullable_schema(self):
         original_parts = [
