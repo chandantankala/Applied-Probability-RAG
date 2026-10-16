@@ -1,0 +1,1841 @@
+{
+  "scope": "10 authoring-time seed questions. Page-hit checks only, not answer correctness, recall of all relevant passages, or held-out validation.",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "candidates": 50,
+  "top_k": 5,
+  "max_pair_tokens": 512,
+  "model_precision": "int8",
+  "corpus": [
+    {
+      "id": "391b111dc9c0fe55",
+      "title": "Beyond propagation of chaos: A stochastic algorithm for mean field optimization",
+      "sha256": "391b111dc9c0fe555763e5747e7e8d27c46a9a264f2c5fabd53e735614da47d3",
+      "pages": 31
+    },
+    {
+      "id": "f6865ff3020bde53",
+      "title": "Dense associative memory for Gaussian distributions",
+      "sha256": "f6865ff3020bde531169c5954cfc49a8af1384dabc0815f1a7c5160806e018f6",
+      "pages": 33
+    },
+    {
+      "id": "1a24af6ab83d882c",
+      "title": "Fast mixing of a randomized shift-register Markov chain",
+      "sha256": "1a24af6ab83d882ce5b0146c44aac5df9e902e2b90e055278fa6656008efe6cc",
+      "pages": 14
+    }
+  ],
+  "model_lock": {
+    "embedding": {
+      "repo": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "sha256": {
+        "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+        "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+        "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21"
+      }
+    },
+    "reranker": {
+      "repo": "cross-encoder/ms-marco-MiniLM-L6-v2",
+      "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a",
+      "sha256": {
+        "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+        "config.json": "380e02c93f431831be65d99a4e7e5f67c133985bf2e77d9d4eba46847190bacc",
+        "onnx/model_quint8_avx2.onnx": "c80a8b34256ea453093d612e3ac48d3d965a0c0a48c7906709af8b8e28461bf9"
+      }
+    }
+  },
+  "runs": [
+    {
+      "id": "vpsa-method",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 18.4,
+      "top_sources": [
+        {
+          "source_id": "653946ca234eb1ea1e86",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 20.63288733457744
+        },
+        {
+          "source_id": "57a8b9cc00066d18e576",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 2,
+          "label": null,
+          "score": 17.978636224019425
+        },
+        {
+          "source_id": "bc37727e09978f514a23",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 15,
+          "label": null,
+          "score": 17.588252121711662
+        },
+        {
+          "source_id": "374aac40557e34670e1d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 16,
+          "label": null,
+          "score": 16.38051717101573
+        },
+        {
+          "source_id": "2e86a6240eb4ae4cb6c3",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 15.287306044215438
+        }
+      ]
+    },
+    {
+      "id": "pairwise-assumptions",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 17.0,
+      "top_sources": [
+        {
+          "source_id": "30f66a39cfbfa27b4556",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Lemma 9",
+          "score": 22.120339861519142
+        },
+        {
+          "source_id": "13415238baf457670fe7",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 21.707651250138973
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 21.170178478921443
+        },
+        {
+          "source_id": "ea5ab6cd6830700dccd0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Theorem 10",
+          "score": 21.16253444873276
+        },
+        {
+          "source_id": "e9522725dd3f2e0380dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 14.04111953368879
+        }
+      ]
+    },
+    {
+      "id": "lipschitz-assumption",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 15.9,
+      "top_sources": [
+        {
+          "source_id": "f20b2c930f4763230a2f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 8",
+          "score": 20.25240942647363
+        },
+        {
+          "source_id": "ad54780ab131d89ec164",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 30,
+          "label": null,
+          "score": 12.896910446063703
+        },
+        {
+          "source_id": "b85662de8a46cc7c5390",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 29,
+          "label": null,
+          "score": 12.51263122558225
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 12.039740344547129
+        },
+        {
+          "source_id": "a1a50eabc32c5d60f0e0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 10,
+          "label": null,
+          "score": 10.992355438398304
+        }
+      ]
+    },
+    {
+      "id": "neural-network-result",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 16.3,
+      "top_sources": [
+        {
+          "source_id": "4c783e013cc8c1d4b0f2",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Theorem 13",
+          "score": 30.82571471338197
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 25.88862692281315
+        },
+        {
+          "source_id": "254aa7eb0d8b59a9ef9f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 7,
+          "label": null,
+          "score": 20.446221793040163
+        },
+        {
+          "source_id": "f371e9a033cb0227ff11",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 17.673880661842063
+        },
+        {
+          "source_id": "f20b2c930f4763230a2f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 8",
+          "score": 16.55368910343102
+        }
+      ]
+    },
+    {
+      "id": "mixing-cutoff",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 16.4,
+      "top_sources": [
+        {
+          "source_id": "341f5162cd209e46a451",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 34.09639113678517
+        },
+        {
+          "source_id": "0d399885cb83337dafdf",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 25.794835895928223
+        },
+        {
+          "source_id": "4e888600f86128a7d3e0",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 20.820500731790826
+        },
+        {
+          "source_id": "7802629ec61525e7d795",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 17.38090653543948
+        },
+        {
+          "source_id": "9f8851db537c6bb08a16",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 2,
+          "label": null,
+          "score": 17.335136129464857
+        }
+      ]
+    },
+    {
+      "id": "q2-exact-mixing",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 15.7,
+      "top_sources": [
+        {
+          "source_id": "7c7db7891f6e47212d0c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": null,
+          "score": 10.602165533133743
+        },
+        {
+          "source_id": "006765677c5879bb743a",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": "Remark 3",
+          "score": 8.749913035892492
+        },
+        {
+          "source_id": "98d746bc126d13b3846b",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 13,
+          "label": null,
+          "score": 8.70563949704356
+        },
+        {
+          "source_id": "925ee98c4d1b88c94fc5",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 2,
+          "label": "Remark 2",
+          "score": 8.281048201550801
+        },
+        {
+          "source_id": "6032232e20ebf44b70b3",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 2,
+          "label": null,
+          "score": 7.8533361664766455
+        }
+      ]
+    },
+    {
+      "id": "gaussian-storage",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 15.5,
+      "top_sources": [
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 17.385417787931136
+        },
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 17.35922547420806
+        },
+        {
+          "source_id": "dc1a2ad06b13a7cd64da",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 17.247776810565966
+        },
+        {
+          "source_id": "7744bfa9239381990c47",
+          "paper_id": "f6865ff3020bde53",
+          "page": 10,
+          "label": null,
+          "score": 16.871971132179937
+        },
+        {
+          "source_id": "a7491c0d75b4f65f56d9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": "Definition 1",
+          "score": 16.702138749109057
+        }
+      ]
+    },
+    {
+      "id": "gaussian-separation",
+      "mode": "bm25",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 16.0,
+      "top_sources": [
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 18.334556223293895
+        },
+        {
+          "source_id": "7744bfa9239381990c47",
+          "paper_id": "f6865ff3020bde53",
+          "page": 10,
+          "label": null,
+          "score": 17.49314001244017
+        },
+        {
+          "source_id": "dc1a2ad06b13a7cd64da",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 17.38664380460373
+        },
+        {
+          "source_id": "e87d3eec464669b7ff6f",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 14.627841494215803
+        },
+        {
+          "source_id": "73ba07e0fa2b713ac4b3",
+          "paper_id": "f6865ff3020bde53",
+          "page": 12,
+          "label": null,
+          "score": 14.168425648778737
+        }
+      ]
+    },
+    {
+      "id": "gaussian-retrieval",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 16.5,
+      "top_sources": [
+        {
+          "source_id": "fbb16417da63ee1f3e66",
+          "paper_id": "f6865ff3020bde53",
+          "page": 7,
+          "label": "Theorem 2",
+          "score": 10.078660888994026
+        },
+        {
+          "source_id": "848f5d678eb135dd364b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 14,
+          "label": null,
+          "score": 9.707641005497653
+        },
+        {
+          "source_id": "7c2e87bde434ff809572",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 9.546013300744487
+        },
+        {
+          "source_id": "c520180f690412616e50",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 8.50566492567041
+        },
+        {
+          "source_id": "25c634aa895a6c980d5a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 8.469812457309102
+        }
+      ]
+    },
+    {
+      "id": "gaussian-capacity",
+      "mode": "bm25",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 16.3,
+      "top_sources": [
+        {
+          "source_id": "ae103014a13ed737a85a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 20.447991756470532
+        },
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 18.16720322498729
+        },
+        {
+          "source_id": "96ca591c7e14e96eeb86",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 2",
+          "score": 17.681979854229958
+        },
+        {
+          "source_id": "a06712cd95aaeaae6419",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 15.448960119231188
+        },
+        {
+          "source_id": "b6d57f40e7c47b98f946",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 14.590056250144666
+        }
+      ]
+    },
+    {
+      "id": "vpsa-method",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 153.9,
+      "top_sources": [
+        {
+          "source_id": "653946ca234eb1ea1e86",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 0.7194061279296875
+        },
+        {
+          "source_id": "57a8b9cc00066d18e576",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 2,
+          "label": null,
+          "score": 0.6364565491676331
+        },
+        {
+          "source_id": "36edc0c9eaf09e30ccd4",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 1,
+          "label": null,
+          "score": 0.6093437671661377
+        },
+        {
+          "source_id": "cc4219c925bbe0a795dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 1,
+          "label": null,
+          "score": 0.5938647389411926
+        },
+        {
+          "source_id": "c06683aaa8338e198d15",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 14,
+          "label": null,
+          "score": 0.5780137181282043
+        }
+      ]
+    },
+    {
+      "id": "pairwise-assumptions",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 38.6,
+      "top_sources": [
+        {
+          "source_id": "ea5ab6cd6830700dccd0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Theorem 10",
+          "score": 0.6654642224311829
+        },
+        {
+          "source_id": "e9522725dd3f2e0380dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 0.6651807427406311
+        },
+        {
+          "source_id": "30f66a39cfbfa27b4556",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Lemma 9",
+          "score": 0.6391623020172119
+        },
+        {
+          "source_id": "13415238baf457670fe7",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 0.5730740427970886
+        },
+        {
+          "source_id": "e485102a71fb58218ebe",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 0.5571921467781067
+        }
+      ]
+    },
+    {
+      "id": "lipschitz-assumption",
+      "mode": "dense",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 39.1,
+      "top_sources": [
+        {
+          "source_id": "f3d7262bdb031c99893e",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 4,
+          "label": null,
+          "score": 0.5267111659049988
+        },
+        {
+          "source_id": "f20b2c930f4763230a2f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 8",
+          "score": 0.5078667402267456
+        },
+        {
+          "source_id": "e9522725dd3f2e0380dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 0.5052869915962219
+        },
+        {
+          "source_id": "ad54780ab131d89ec164",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 30,
+          "label": null,
+          "score": 0.49927642941474915
+        },
+        {
+          "source_id": "3ba3ba530549d141f4bc",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 16,
+          "label": null,
+          "score": 0.4880674481391907
+        }
+      ]
+    },
+    {
+      "id": "neural-network-result",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 43.2,
+      "top_sources": [
+        {
+          "source_id": "4c783e013cc8c1d4b0f2",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Theorem 13",
+          "score": 0.804675817489624
+        },
+        {
+          "source_id": "254aa7eb0d8b59a9ef9f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 7,
+          "label": null,
+          "score": 0.627708911895752
+        },
+        {
+          "source_id": "f371e9a033cb0227ff11",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 0.6126899719238281
+        },
+        {
+          "source_id": "7ab888ab59c831858d49",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 0.580976128578186
+        },
+        {
+          "source_id": "f3d7262bdb031c99893e",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 4,
+          "label": null,
+          "score": 0.5491639375686646
+        }
+      ]
+    },
+    {
+      "id": "mixing-cutoff",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 36.8,
+      "top_sources": [
+        {
+          "source_id": "341f5162cd209e46a451",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 0.6762380599975586
+        },
+        {
+          "source_id": "0d399885cb83337dafdf",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 0.6199437975883484
+        },
+        {
+          "source_id": "9f8851db537c6bb08a16",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 2,
+          "label": null,
+          "score": 0.6172672510147095
+        },
+        {
+          "source_id": "4e888600f86128a7d3e0",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 0.6065148115158081
+        },
+        {
+          "source_id": "3214c9c1ae9fee7fba05",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 0.5482683777809143
+        }
+      ]
+    },
+    {
+      "id": "q2-exact-mixing",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 38.5,
+      "top_sources": [
+        {
+          "source_id": "7c7db7891f6e47212d0c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": null,
+          "score": 0.46379122138023376
+        },
+        {
+          "source_id": "7970803508520d9d7364",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 9",
+          "score": 0.40161362290382385
+        },
+        {
+          "source_id": "3f70080cffb7f5aa37bf",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 4,
+          "label": null,
+          "score": 0.3866097331047058
+        },
+        {
+          "source_id": "0cde49d228d7487405c3",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 0.36802926659584045
+        },
+        {
+          "source_id": "75a706abf775aaee8555",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 14,
+          "label": null,
+          "score": 0.36708807945251465
+        }
+      ]
+    },
+    {
+      "id": "gaussian-storage",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 38.2,
+      "top_sources": [
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 0.70473313331604
+        },
+        {
+          "source_id": "a7491c0d75b4f65f56d9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": "Definition 1",
+          "score": 0.6701245307922363
+        },
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.6674092411994934
+        },
+        {
+          "source_id": "56e1196052a33204aea2",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.6318966150283813
+        },
+        {
+          "source_id": "90939db215456ea2b85b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": null,
+          "score": 0.6229683756828308
+        }
+      ]
+    },
+    {
+      "id": "gaussian-separation",
+      "mode": "dense",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 37.0,
+      "top_sources": [
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 0.7119330167770386
+        },
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.6653413772583008
+        },
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 0.6064112186431885
+        },
+        {
+          "source_id": "c520180f690412616e50",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 0.5932300090789795
+        },
+        {
+          "source_id": "56e1196052a33204aea2",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.5896534323692322
+        }
+      ]
+    },
+    {
+      "id": "gaussian-retrieval",
+      "mode": "dense",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 37.2,
+      "top_sources": [
+        {
+          "source_id": "7c2e87bde434ff809572",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.589313268661499
+        },
+        {
+          "source_id": "0d900d5b5c218d25340c",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 0.5868403911590576
+        },
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.5821672677993774
+        },
+        {
+          "source_id": "25c634aa895a6c980d5a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.5803204774856567
+        },
+        {
+          "source_id": "ce14941313962a55245f",
+          "paper_id": "f6865ff3020bde53",
+          "page": 8,
+          "label": null,
+          "score": 0.5722722411155701
+        }
+      ]
+    },
+    {
+      "id": "gaussian-capacity",
+      "mode": "dense",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 38.1,
+      "top_sources": [
+        {
+          "source_id": "96ca591c7e14e96eeb86",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 2",
+          "score": 0.6887416839599609
+        },
+        {
+          "source_id": "a7491c0d75b4f65f56d9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": "Definition 1",
+          "score": 0.6410681009292603
+        },
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 0.5816295146942139
+        },
+        {
+          "source_id": "ae103014a13ed737a85a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.5763835906982422
+        },
+        {
+          "source_id": "90939db215456ea2b85b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": null,
+          "score": 0.5752348899841309
+        }
+      ]
+    },
+    {
+      "id": "vpsa-method",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 36.1,
+      "top_sources": [
+        {
+          "source_id": "653946ca234eb1ea1e86",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 0.03278688524590164
+        },
+        {
+          "source_id": "57a8b9cc00066d18e576",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 2,
+          "label": null,
+          "score": 0.03225806451612903
+        },
+        {
+          "source_id": "36edc0c9eaf09e30ccd4",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 1,
+          "label": null,
+          "score": 0.031024531024531024
+        },
+        {
+          "source_id": "bc37727e09978f514a23",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 15,
+          "label": null,
+          "score": 0.031024531024531024
+        },
+        {
+          "source_id": "2e86a6240eb4ae4cb6c3",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 0.029877369007803793
+        }
+      ]
+    },
+    {
+      "id": "pairwise-assumptions",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 39.7,
+      "top_sources": [
+        {
+          "source_id": "30f66a39cfbfa27b4556",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Lemma 9",
+          "score": 0.032266458495966696
+        },
+        {
+          "source_id": "ea5ab6cd6830700dccd0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Theorem 10",
+          "score": 0.032018442622950824
+        },
+        {
+          "source_id": "13415238baf457670fe7",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 0.031754032258064516
+        },
+        {
+          "source_id": "e9522725dd3f2e0380dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 0.0315136476426799
+        },
+        {
+          "source_id": "003728cfa107467692fc",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 7,
+          "label": null,
+          "score": 0.03007688828584351
+        }
+      ]
+    },
+    {
+      "id": "lipschitz-assumption",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 41.2,
+      "top_sources": [
+        {
+          "source_id": "f20b2c930f4763230a2f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 8",
+          "score": 0.03252247488101534
+        },
+        {
+          "source_id": "ad54780ab131d89ec164",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 30,
+          "label": null,
+          "score": 0.031754032258064516
+        },
+        {
+          "source_id": "f3d7262bdb031c99893e",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 4,
+          "label": null,
+          "score": 0.03131881575727918
+        },
+        {
+          "source_id": "a1a50eabc32c5d60f0e0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 10,
+          "label": null,
+          "score": 0.030536130536130537
+        },
+        {
+          "source_id": "b85662de8a46cc7c5390",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 29,
+          "label": null,
+          "score": 0.02976190476190476
+        }
+      ]
+    },
+    {
+      "id": "neural-network-result",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 36.6,
+      "top_sources": [
+        {
+          "source_id": "4c783e013cc8c1d4b0f2",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Theorem 13",
+          "score": 0.03278688524590164
+        },
+        {
+          "source_id": "254aa7eb0d8b59a9ef9f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 7,
+          "label": null,
+          "score": 0.03200204813108039
+        },
+        {
+          "source_id": "f371e9a033cb0227ff11",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 0.03149801587301587
+        },
+        {
+          "source_id": "a1a50eabc32c5d60f0e0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 10,
+          "label": null,
+          "score": 0.03007688828584351
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 0.030017921146953404
+        }
+      ]
+    },
+    {
+      "id": "mixing-cutoff",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 39.1,
+      "top_sources": [
+        {
+          "source_id": "341f5162cd209e46a451",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 0.03278688524590164
+        },
+        {
+          "source_id": "0d399885cb83337dafdf",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 0.03225806451612903
+        },
+        {
+          "source_id": "4e888600f86128a7d3e0",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 0.03149801587301587
+        },
+        {
+          "source_id": "9f8851db537c6bb08a16",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 2,
+          "label": null,
+          "score": 0.03125763125763126
+        },
+        {
+          "source_id": "7802629ec61525e7d795",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 0.030330882352941176
+        }
+      ]
+    },
+    {
+      "id": "q2-exact-mixing",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 34.9,
+      "top_sources": [
+        {
+          "source_id": "7c7db7891f6e47212d0c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": null,
+          "score": 0.03278688524590164
+        },
+        {
+          "source_id": "006765677c5879bb743a",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": "Remark 3",
+          "score": 0.030017921146953404
+        },
+        {
+          "source_id": "35188926c8be96b7726c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 13,
+          "label": null,
+          "score": 0.029418126757516764
+        },
+        {
+          "source_id": "75a706abf775aaee8555",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 14,
+          "label": null,
+          "score": 0.027730294396961064
+        },
+        {
+          "source_id": "98d746bc126d13b3846b",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 13,
+          "label": null,
+          "score": 0.02736726874657909
+        }
+      ]
+    },
+    {
+      "id": "gaussian-storage",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 39.5,
+      "top_sources": [
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 0.03252247488101534
+        },
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 0.031544957774465976
+        },
+        {
+          "source_id": "a7491c0d75b4f65f56d9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": "Definition 1",
+          "score": 0.0315136476426799
+        },
+        {
+          "source_id": "56e1196052a33204aea2",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.030776515151515152
+        },
+        {
+          "source_id": "dc1a2ad06b13a7cd64da",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 0.03057889822595705
+        }
+      ]
+    },
+    {
+      "id": "gaussian-separation",
+      "mode": "hybrid",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 37.8,
+      "top_sources": [
+        {
+          "source_id": "4fabc85bfad1959c4801",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 0.03278688524590164
+        },
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.030834914611005692
+        },
+        {
+          "source_id": "dc1a2ad06b13a7cd64da",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 0.03057889822595705
+        },
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 0.02964426877470356
+        },
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 0.029571646010002173
+        }
+      ]
+    },
+    {
+      "id": "gaussian-retrieval",
+      "mode": "hybrid",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 35.4,
+      "top_sources": [
+        {
+          "source_id": "7c2e87bde434ff809572",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.032266458495966696
+        },
+        {
+          "source_id": "25c634aa895a6c980d5a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.031009615384615385
+        },
+        {
+          "source_id": "ce14941313962a55245f",
+          "paper_id": "f6865ff3020bde53",
+          "page": 8,
+          "label": null,
+          "score": 0.030309988518943745
+        },
+        {
+          "source_id": "58829e3b94f54cd4770a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 12,
+          "label": null,
+          "score": 0.029857397504456328
+        },
+        {
+          "source_id": "848f5d678eb135dd364b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 14,
+          "label": null,
+          "score": 0.028629032258064516
+        }
+      ]
+    },
+    {
+      "id": "gaussian-capacity",
+      "mode": "hybrid",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 35.1,
+      "top_sources": [
+        {
+          "source_id": "96ca591c7e14e96eeb86",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 2",
+          "score": 0.032266458495966696
+        },
+        {
+          "source_id": "ae103014a13ed737a85a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.032018442622950824
+        },
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 0.03200204813108039
+        },
+        {
+          "source_id": "a06712cd95aaeaae6419",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 0.030776515151515152
+        },
+        {
+          "source_id": "90939db215456ea2b85b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": null,
+          "score": 0.02967032967032967
+        }
+      ]
+    },
+    {
+      "id": "vpsa-method",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2993.8,
+      "top_sources": [
+        {
+          "source_id": "57a8b9cc00066d18e576",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 2,
+          "label": null,
+          "score": 6.919896602630615
+        },
+        {
+          "source_id": "36edc0c9eaf09e30ccd4",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 1,
+          "label": null,
+          "score": 4.0663018226623535
+        },
+        {
+          "source_id": "cc4219c925bbe0a795dd",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 1,
+          "label": null,
+          "score": 2.9273931980133057
+        },
+        {
+          "source_id": "653946ca234eb1ea1e86",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 6,
+          "label": null,
+          "score": 2.5397415161132812
+        },
+        {
+          "source_id": "c06683aaa8338e198d15",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 14,
+          "label": null,
+          "score": 2.237717628479004
+        }
+      ]
+    },
+    {
+      "id": "pairwise-assumptions",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2854.9,
+      "top_sources": [
+        {
+          "source_id": "ea5ab6cd6830700dccd0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Theorem 10",
+          "score": 8.122821807861328
+        },
+        {
+          "source_id": "30f66a39cfbfa27b4556",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 12,
+          "label": "Lemma 9",
+          "score": 7.003468036651611
+        },
+        {
+          "source_id": "13415238baf457670fe7",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 8,
+          "label": null,
+          "score": 5.329108238220215
+        },
+        {
+          "source_id": "a1a50eabc32c5d60f0e0",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 10,
+          "label": null,
+          "score": 3.3347184658050537
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 2.423030138015747
+        }
+      ]
+    },
+    {
+      "id": "lipschitz-assumption",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2877.4,
+      "top_sources": [
+        {
+          "source_id": "ad54780ab131d89ec164",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 30,
+          "label": null,
+          "score": 3.760343074798584
+        },
+        {
+          "source_id": "f20b2c930f4763230a2f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 8",
+          "score": 3.682084083557129
+        },
+        {
+          "source_id": "103c60129eb86131558d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 10,
+          "label": "Assumption 1",
+          "score": 1.5738986730575562
+        },
+        {
+          "source_id": "b85662de8a46cc7c5390",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 29,
+          "label": null,
+          "score": 0.8982058167457581
+        },
+        {
+          "source_id": "4c783e013cc8c1d4b0f2",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Theorem 13",
+          "score": -0.29168543219566345
+        }
+      ]
+    },
+    {
+      "id": "neural-network-result",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2889.1,
+      "top_sources": [
+        {
+          "source_id": "4c783e013cc8c1d4b0f2",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Theorem 13",
+          "score": 8.92354965209961
+        },
+        {
+          "source_id": "f371e9a033cb0227ff11",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 5.016478538513184
+        },
+        {
+          "source_id": "6aa11b12973df000949d",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 3,
+          "label": null,
+          "score": 2.8847997188568115
+        },
+        {
+          "source_id": "7ab888ab59c831858d49",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 31,
+          "label": null,
+          "score": 2.582634210586548
+        },
+        {
+          "source_id": "254aa7eb0d8b59a9ef9f",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 7,
+          "label": null,
+          "score": 2.3317625522613525
+        }
+      ]
+    },
+    {
+      "id": "mixing-cutoff",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2917.2,
+      "top_sources": [
+        {
+          "source_id": "341f5162cd209e46a451",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 5.990616798400879
+        },
+        {
+          "source_id": "0d399885cb83337dafdf",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 4.250678539276123
+        },
+        {
+          "source_id": "3214c9c1ae9fee7fba05",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 3,
+          "label": null,
+          "score": 1.3901561498641968
+        },
+        {
+          "source_id": "9f8851db537c6bb08a16",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 2,
+          "label": null,
+          "score": 1.1563637256622314
+        },
+        {
+          "source_id": "4e888600f86128a7d3e0",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 1,
+          "label": null,
+          "score": 1.071638822555542
+        }
+      ]
+    },
+    {
+      "id": "q2-exact-mixing",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2796.2,
+      "top_sources": [
+        {
+          "source_id": "75a706abf775aaee8555",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 14,
+          "label": null,
+          "score": -3.421633720397949
+        },
+        {
+          "source_id": "7970803508520d9d7364",
+          "paper_id": "391b111dc9c0fe55",
+          "page": 13,
+          "label": "Assumption 9",
+          "score": -4.385653495788574
+        },
+        {
+          "source_id": "7c7db7891f6e47212d0c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 12,
+          "label": null,
+          "score": -4.388355731964111
+        },
+        {
+          "source_id": "98d746bc126d13b3846b",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 13,
+          "label": null,
+          "score": -5.031046390533447
+        },
+        {
+          "source_id": "35188926c8be96b7726c",
+          "paper_id": "1a24af6ab83d882c",
+          "page": 13,
+          "label": null,
+          "score": -5.226501941680908
+        }
+      ]
+    },
+    {
+      "id": "gaussian-storage",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2767.5,
+      "top_sources": [
+        {
+          "source_id": "b6d57f40e7c47b98f946",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 4.360194683074951
+        },
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 4.069296836853027
+        },
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 3.9222519397735596
+        },
+        {
+          "source_id": "90939db215456ea2b85b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": null,
+          "score": 3.8435118198394775
+        },
+        {
+          "source_id": "a7491c0d75b4f65f56d9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 5,
+          "label": "Definition 1",
+          "score": 3.8012914657592773
+        }
+      ]
+    },
+    {
+      "id": "gaussian-separation",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": false,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2808.5,
+      "top_sources": [
+        {
+          "source_id": "1de932873c1cf34249e0",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 2.740602970123291
+        },
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 1.2595709562301636
+        },
+        {
+          "source_id": "e87d3eec464669b7ff6f",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 1.1536449193954468
+        },
+        {
+          "source_id": "473e83b00330970be48e",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 0.5776302218437195
+        },
+        {
+          "source_id": "88ef461e0d58edab03f9",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 0.5431973338127136
+        }
+      ]
+    },
+    {
+      "id": "gaussian-retrieval",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2707.9,
+      "top_sources": [
+        {
+          "source_id": "b6d57f40e7c47b98f946",
+          "paper_id": "f6865ff3020bde53",
+          "page": 1,
+          "label": null,
+          "score": 3.5716259479522705
+        },
+        {
+          "source_id": "014cd4addedcac4c86ac",
+          "paper_id": "f6865ff3020bde53",
+          "page": 9,
+          "label": null,
+          "score": 2.872093915939331
+        },
+        {
+          "source_id": "fbb16417da63ee1f3e66",
+          "paper_id": "f6865ff3020bde53",
+          "page": 7,
+          "label": "Theorem 2",
+          "score": 2.0231080055236816
+        },
+        {
+          "source_id": "848f5d678eb135dd364b",
+          "paper_id": "f6865ff3020bde53",
+          "page": 14,
+          "label": null,
+          "score": 1.6954463720321655
+        },
+        {
+          "source_id": "58829e3b94f54cd4770a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 12,
+          "label": null,
+          "score": 1.3925541639328003
+        }
+      ]
+    },
+    {
+      "id": "gaussian-capacity",
+      "mode": "hybrid-rerank",
+      "page_hit_at_5": true,
+      "candidate_page_hit_at_50": true,
+      "timing_ms": 2629.2,
+      "top_sources": [
+        {
+          "source_id": "de0e800ba2adb1d413dc",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 1",
+          "score": 6.517578125
+        },
+        {
+          "source_id": "96ca591c7e14e96eeb86",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": "Remark 2",
+          "score": 4.996345520019531
+        },
+        {
+          "source_id": "ae103014a13ed737a85a",
+          "paper_id": "f6865ff3020bde53",
+          "page": 2,
+          "label": null,
+          "score": 4.80501651763916
+        },
+        {
+          "source_id": "a06712cd95aaeaae6419",
+          "paper_id": "f6865ff3020bde53",
+          "page": 6,
+          "label": null,
+          "score": 4.118666172027588
+        },
+        {
+          "source_id": "7c2e87bde434ff809572",
+          "paper_id": "f6865ff3020bde53",
+          "page": 3,
+          "label": null,
+          "score": 3.372875213623047
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "mode": "bm25",
+      "page_hits_at_5": 9,
+      "candidate_page_hits_at_50": 10,
+      "questions": 10,
+      "median_ms": 16.3
+    },
+    {
+      "mode": "dense",
+      "page_hits_at_5": 7,
+      "candidate_page_hits_at_50": 10,
+      "questions": 10,
+      "median_ms": 38.4
+    },
+    {
+      "mode": "hybrid",
+      "page_hits_at_5": 8,
+      "candidate_page_hits_at_50": 10,
+      "questions": 10,
+      "median_ms": 37.2
+    },
+    {
+      "mode": "hybrid-rerank",
+      "page_hits_at_5": 9,
+      "candidate_page_hits_at_50": 10,
+      "questions": 10,
+      "median_ms": 2831.7
+    }
+  ]
+}

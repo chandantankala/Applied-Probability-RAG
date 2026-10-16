@@ -1,0 +1,26 @@
+[
+  {
+    "id": "391b111dc9c0fe55",
+    "title": "Beyond propagation of chaos: A stochastic algorithm for mean field optimization",
+    "filename": "Beyond Propagation of Chaos Tankala.pdf",
+    "sha256": "391b111dc9c0fe555763e5747e7e8d27c46a9a264f2c5fabd53e735614da47d3",
+    "pages": 31,
+    "notes": "Uploaded 31-page COLT proceedings copy; preserve its exact statement numbering."
+  },
+  {
+    "id": "f6865ff3020bde53",
+    "title": "Dense associative memory for Gaussian distributions",
+    "filename": "Dense Associative Memory.pdf",
+    "sha256": "f6865ff3020bde531169c5954cfc49a8af1384dabc0815f1a7c5160806e018f6",
+    "pages": 33,
+    "notes": "Uploaded 33-page ICML 2026 proceedings copy, PMLR 306. Use this copy for statement numbering and page references."
+  },
+  {
+    "id": "1a24af6ab83d882c",
+    "title": "Fast mixing of a randomized shift-register Markov chain",
+    "filename": "Fast Mixing Markov Chain Tankala(1).pdf",
+    "sha256": "1a24af6ab83d882ce5b0146c44aac5df9e902e2b90e055278fa6656008efe6cc",
+    "pages": 14,
+    "notes": "Uploaded 14-page journal copy, J. Appl. Probab. 60 (2023), printed pages 253\u2013266."
+  }
+]

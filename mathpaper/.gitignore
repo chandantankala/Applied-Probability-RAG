@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.env
+data/models/
+data/models-int8/
+data/vectors.npz
+data/vectors-int8.npz
+data/*.sqlite*
+# The author's approved source PDFs are tracked; generated data stays local.
+data/conversations.sqlite*
+data/*.sqlite-wal
+data/*.sqlite-shm

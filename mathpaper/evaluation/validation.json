@@ -1,0 +1,50 @@
+{
+  "python": "3.12.14",
+  "tested_dependencies": {
+    "PyMuPDF": "1.28.2",
+    "numpy": "2.5.4",
+    "fastapi": "0.143.2",
+    "uvicorn": "0.54.0",
+    "python-multipart": "0.0.32",
+    "onnxruntime": "1.31.0",
+    "tokenizers": "0.23.3",
+    "httpx": "0.28.1",
+    "python-dotenv": "1.2.4",
+    "fastmcp": "4.1.0",
+    "mcp": "2.3.0",
+    "httpx2": "2.13.1"
+  },
+  "deterministic_tests": {
+    "passed": 16
+  },
+  "integration": "HTTP, PDF fingerprints, all live MCP tools, and scripted-model agent wiring passed.",
+  "retrieval": "Real ONNX CPU inference; 10-question authoring-time page-hit smoke comparison in RESULTS.md.",
+  "not_verified": [
+    "Live generative model quality or costs",
+    "Mobile layout, comprehensive browser and accessibility coverage",
+    "Peak cloud memory and sustained-load latency"
+  ],
+  "deployment_entry_point": "Public port binding, health, public-mode upload/chat restrictions, real reranked retrieval, internal MCP routing, and graceful shutdown passed.",
+  "free_plan": {
+    "profile": "int8",
+    "sum_of_individual_process_peak_rss_mib": 399.2,
+    "seed_page_hits": {
+      "N20": 9,
+      "N50": 9
+    },
+    "cloud_deployment_verified": true
+  },
+  "checked_at_utc": "2026-10-16T00:25:03.895074+00:00",
+  "corpus": {
+    "papers": 3,
+    "pages": 78,
+    "passages": 404,
+    "source_sha256": {
+      "391b111dc9c0fe55": "391b111dc9c0fe555763e5747e7e8d27c46a9a264f2c5fabd53e735614da47d3",
+      "f6865ff3020bde53": "f6865ff3020bde531169c5954cfc49a8af1384dabc0815f1a7c5160806e018f6",
+      "1a24af6ab83d882c": "1a24af6ab83d882ce5b0146c44aac5df9e902e2b90e055278fa6656008efe6cc"
+    }
+  },
+  "model_precision": "int8",
+  "cloud_validation_file": "cloud_validation.json"
+}

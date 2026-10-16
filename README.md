@@ -1,5 +1,17 @@
 # Applied Probability RAG
 
+## MathPaper web app and free hosting setup
+
+The new [MathPaper application](mathpaper/README.md) adds BM25 + dense hybrid retrieval, the selected MiniLM cross-encoder reranker, page-linked evidence, and bounded MCP research tools. Its [deployment guide](mathpaper/DEPLOYMENT.md) describes the free Render configuration in the root `render.yaml`.
+
+**Live evidence-search demo:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Search all three papers, compare retrieval settings, and open the original source pages. Generated answers require a separate model connection and are currently disabled. The free service can take about a minute to wake after inactivity.
+
+The author's three approved PDFs are included under `mathpaper/data/papers/`. The Docker build verifies their fingerprints and builds the index from these exact copies, including the uploaded ICML 2026 proceedings version of the associative-memory paper. The free Render deployment targets branch `mathpaper-free-web-demo`; its first Docker build, live search, health check, and all three served-PDF fingerprints passed verification. The ten evaluation questions are development checks, not a held-out benchmark.
+
+The earlier Streamlit/Voyage/Claude prototype remains below.
+
+---
+
 A retrieval-augmented question-answering system over a corpus of applied-probability research papers. Ask a question in natural language; get an answer grounded in the papers, with citations to specific files and pages.
 
 Built with [LangChain](https://www.langchain.com/), [Voyage AI](https://www.voyageai.com/) embeddings, [Chroma](https://www.trychroma.com/) for vector storage, [Anthropic Claude](https://www.anthropic.com/) for generation, and [Streamlit](https://streamlit.io/) for the frontend.

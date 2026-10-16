@@ -1,0 +1,86 @@
+[
+  {
+    "id": "vpsa-method",
+    "question": "What does virtual particle stochastic approximation do in mean field optimization?",
+    "gold_paper": "391b111dc9c0fe55",
+    "gold_pages": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": "pairwise-assumptions",
+    "question": "Under what assumptions does Theorem 10 establish convergence for pairwise interaction energy?",
+    "gold_paper": "391b111dc9c0fe55",
+    "gold_pages": [
+      11,
+      12
+    ]
+  },
+  {
+    "id": "lipschitz-assumption",
+    "question": "What Lipschitz continuity assumptions are imposed on the mean field optimization algorithm?",
+    "gold_paper": "391b111dc9c0fe55",
+    "gold_pages": [
+      10
+    ]
+  },
+  {
+    "id": "neural-network-result",
+    "question": "What assumptions are used in Theorem 13 for the mean field neural network with square loss?",
+    "gold_paper": "391b111dc9c0fe55",
+    "gold_pages": [
+      13
+    ]
+  },
+  {
+    "id": "mixing-cutoff",
+    "question": "What is the mixing time and cutoff window of the randomized shift-register Markov chain?",
+    "gold_paper": "1a24af6ab83d882c",
+    "gold_pages": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": "q2-exact-mixing",
+    "question": "When does Q2 reach the uniform distribution exactly?",
+    "gold_paper": "1a24af6ab83d882c",
+    "gold_pages": [
+      12
+    ]
+  },
+  {
+    "id": "gaussian-storage",
+    "question": "How is storage of a Gaussian measure defined in this dense associative memory?",
+    "gold_paper": "f6865ff3020bde53",
+    "gold_pages": [
+      5
+    ]
+  },
+  {
+    "id": "gaussian-separation",
+    "question": "What separation assumption is used for Gaussian measures in dense associative memory?",
+    "gold_paper": "f6865ff3020bde53",
+    "gold_pages": [
+      5
+    ]
+  },
+  {
+    "id": "gaussian-retrieval",
+    "question": "What retrieval guarantee is provided for Gaussian patterns?",
+    "gold_paper": "f6865ff3020bde53",
+    "gold_pages": [
+      7
+    ]
+  },
+  {
+    "id": "gaussian-capacity",
+    "question": "What exponential storage capacity does Theorem 1 establish for Gaussian distributions?",
+    "gold_paper": "f6865ff3020bde53",
+    "gold_pages": [
+      5,
+      6
+    ]
+  }
+]

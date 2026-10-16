@@ -1,0 +1,144 @@
+{
+  "precision": "int8",
+  "batch_size": 1,
+  "ort_threads": 1,
+  "top_k": 5,
+  "sum_of_process_peak_rss_mib": 399.2,
+  "processes": [
+    {
+      "role": "serve",
+      "peak_rss_kib": 242296
+    },
+    {
+      "role": "mcp",
+      "peak_rss_kib": 89848
+    },
+    {
+      "role": "supervisor",
+      "peak_rss_kib": 76624
+    }
+  ],
+  "runs": [
+    {
+      "id": "vpsa-method",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1142.3
+    },
+    {
+      "id": "pairwise-assumptions",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1092.1
+    },
+    {
+      "id": "lipschitz-assumption",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1144.7
+    },
+    {
+      "id": "neural-network-result",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1272.8
+    },
+    {
+      "id": "mixing-cutoff",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1229.3
+    },
+    {
+      "id": "q2-exact-mixing",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1215.1
+    },
+    {
+      "id": "gaussian-storage",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1242.9
+    },
+    {
+      "id": "gaussian-separation",
+      "candidates": 20,
+      "page_hit_at_5": false,
+      "timing_ms": 1104.0
+    },
+    {
+      "id": "gaussian-retrieval",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1155.7
+    },
+    {
+      "id": "gaussian-capacity",
+      "candidates": 20,
+      "page_hit_at_5": true,
+      "timing_ms": 1173.3
+    },
+    {
+      "id": "vpsa-method",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2969.3
+    },
+    {
+      "id": "pairwise-assumptions",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2917.4
+    },
+    {
+      "id": "lipschitz-assumption",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 3126.8
+    },
+    {
+      "id": "neural-network-result",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2921.2
+    },
+    {
+      "id": "mixing-cutoff",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2889.1
+    },
+    {
+      "id": "q2-exact-mixing",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2845.8
+    },
+    {
+      "id": "gaussian-storage",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2849.3
+    },
+    {
+      "id": "gaussian-separation",
+      "candidates": 50,
+      "page_hit_at_5": false,
+      "timing_ms": 2920.1
+    },
+    {
+      "id": "gaussian-retrieval",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2856.9
+    },
+    {
+      "id": "gaussian-capacity",
+      "candidates": 50,
+      "page_hit_at_5": true,
+      "timing_ms": 2691.6
+    }
+  ],
+  "limits": "Local sum of each process's peak RSS, including API, MCP and supervisor. Peaks need not coincide; shared pages can be double-counted. Some container overhead/page cache is excluded. This is not a cgroup memory-cap test or a measurement on Render's 0.1 CPU. These 10 questions are development seeds, not held-out evaluation."
+}

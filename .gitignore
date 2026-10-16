@@ -5,7 +5,7 @@
 
 # Local data and build artifacts
 chroma_db/
-papers/
+/papers/
 
 # Python
 __pycache__/
