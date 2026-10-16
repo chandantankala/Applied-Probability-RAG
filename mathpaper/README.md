@@ -2,6 +2,8 @@
 
 **Live demo:** [mathpaper-chandan-tankala.onrender.com](https://mathpaper-chandan-tankala.onrender.com/). Cited answers and evidence search are public. Free hosting can take about a minute to wake after inactivity.
 
+**Experiment notebook:** [/evaluation](https://mathpaper-chandan-tankala.onrender.com/evaluation) presents the recorded four-method comparison, the 20-versus-50 candidate experiment, an audit of all ten questions with original PDF links, and the three live agent smoke cases. Its downloadable snapshot is rebuilt from recorded inputs; these development checks measure evidence-page hits rather than answer accuracy. Tuning covers retrieval configuration; model weights are unchanged.
+
 This checkout includes the author's three approved source PDFs. The derived database, vectors, model weights, and secrets are excluded from Git. The Docker build verifies the PDF fingerprints and rebuilds the corpus; publishing this source alone does not deploy a website.
 
 A Python research chatbot project built around Chandan Tankala's three uploaded mathematics papers. It includes a browser interface, real CPU hybrid retrieval and MiniLM reranking, and a bounded agent that calls research tools through MCP.
@@ -139,7 +141,7 @@ This gate reduces unsupported output but cannot certify mathematical correctness
 ## What has been checked
 
 - Real CPU embedding and cross-encoder inference on all 404 passages and the starter questions.
-- Twenty-seven deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, structured answer/check schemas, safe access diagnostics, JSON checking, credential redaction, model-call limits, and persistent shared quota/concurrency behavior. Provider tests use HTTP fixtures and do not measure live model quality.
+- Thirty-two deterministic tests covering retrieval and citation boundaries, bounded history, public restrictions, native Gemini tool-call/signature replay, structured answer/check schemas, safe access diagnostics, JSON checking, credential redaction, model-call limits, persistent shared quota/concurrency behavior, and the provenance of published evaluation statistics. Provider tests use HTTP fixtures and do not measure live model quality.
 - HTTP endpoints and original-PDF byte hashes.
 - Live MCP discovery and all three research tools, including the Gaussian separation assumption on PDF page 5 of the included proceedings copy.
 - A scripted-model agent wiring check over the real MCP service, including selected-paper enforcement and rejection of invented citations. This fixture is only used in tests.
@@ -169,6 +171,14 @@ Rerun the retrieval comparison after changing a retrieval parameter or model:
 python evaluation/evaluate.py
 ```
 
+Rebuild the website's static evaluation snapshot after updating recorded inputs:
+
+```bash
+python evaluation/build_site_report.py
+```
+
+The report builder checks PDF fingerprints, recomputes page hits from returned sources, and derives medians from individual runs. It makes no model requests. The snapshot is included in the Python package and Docker image; the full evaluation scripts remain in this repository. The test suite rejects a stale snapshot or results for a different PDF version.
+
 ## Work through the project together
 
 1. Run **Find evidence** and inspect several source pages, especially formulas and cross-page statements.
@@ -193,5 +203,6 @@ python evaluation/evaluate.py
 | `src/mathpaper/web/` | Browser interface |
 | `tests/` | Deterministic safeguards |
 | `evaluation/` | Seed questions, measured retrieval results, integration checks |
+| `evaluation/build_site_report.py` | Reproducible public evaluation snapshot with source fingerprints |
 
 The local CLI binds to loopback by default; container startup exposes the API on the host's port while MCP stays on loopback. ONNX Runtime telemetry is disabled before initialization; FastMCP update checks and telemetry are off by default. Once weights are downloaded, evidence search needs no external service. The public deployment defaults to a fixed, read-only paper collection. It has no user-account authentication or paid-generation usage controls yet.

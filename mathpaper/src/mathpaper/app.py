@@ -56,6 +56,11 @@ def home():
     return FileResponse(web / "index.html")
 
 
+@app.get("/evaluation")
+def evaluation():
+    return FileResponse(web / "evaluation.html")
+
+
 @app.get("/api/status")
 def status():
     corpus = papers()
